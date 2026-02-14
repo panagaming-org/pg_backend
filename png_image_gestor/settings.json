@@ -1,0 +1,15 @@
+{
+    "mysql": {
+        "host": "100.116.29.49",
+        "user": "root",
+        "passwd": "ikero9090",
+        "db": "ADMINDB",
+        "auth_plugin": "mysql_native_password"
+    },
+    "flask": {
+        "ip": "mc.panagaming.org",
+        "port": 5001,
+        "debug": true,
+        "host": "0.0.0.0"
+    }
+}

@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  png_image_gestor:
+    build: .
+    image: png_image_gestor
+    container_name: png_image_gestor
+    ports:
+      - "5001:5001"    
+    volumes:
+      - .:/usr/src/app
+    network_mode: "host"
+
