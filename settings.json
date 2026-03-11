@@ -1,0 +1,14 @@
+{
+    "mysql": {
+        "host": "192.168.1.90",
+        "user": "root",
+        "passwd": "ikero9090",
+        "db": "PANAGAMING_BACKEND",
+        "auth_plugin": "mysql_native_password"
+    },
+    "flask": {
+        "port": 5001,
+        "debug": true,
+        "host": "0.0.0.0"
+    }
+}
