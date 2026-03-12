@@ -1,5 +1,5 @@
 from passlib.hash import pbkdf2_sha256
-from models.entity.User import User
+from models.User import User
 from extensions import db
 
 # Verifica el Login
@@ -13,6 +13,10 @@ async def verify_login(username, passwd):
 
     return valid
 
+# Comprueba si el usuario administrador existe o no
+async def admin_user_exists():
+    admin_user = db.session.query(User).filter(User.username == 'Administrator').first()
+    return True if admin_user else False
 
 # Encripta la contraseña
 def encrypt_passwd(passwd):

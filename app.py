@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 import asyncio
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db
-from models.entity.User import User
+from models.User import User
+import controller.SecurityController as security
 
 settings = {}
 
@@ -20,23 +21,36 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{settings['mysql']['user']}:{settings['mysql']['passwd']}@{settings['mysql']['host']}/{settings['mysql']['db']}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+from routes import auth_bp, skins_bp, console_bp, user_bp
+
+app.register_blueprint(auth_bp, url_prefix="/auth")
+app.register_blueprint(skins_bp, url_prefix="/mc/images")
+app.register_blueprint(console_bp, url_prefix="/mc/consoles")
+app.register_blueprint(user_bp, url_prefix="/users")
+
 db.init_app(app)
 app.app_context()
 
-from routes import auth_bp, pannel_bp, images_bp, console_bp
-
-app.register_blueprint(auth_bp, url_prefix="/auth")
-app.register_blueprint(pannel_bp, url_prefix="/pannel")
-app.register_blueprint(images_bp, url_prefix="/mc/images")
-app.register_blueprint(console_bp, url_prefix="/mc/consoles")
 
 # Ruta del index
-@app.route('/')
+@app.route('/', methods=['GET'])
 async def index():
-    if 'id' not in session:
-        return redirect(url_for('auth.login'))
+    if await security.admin_user_exists():
+        if 'id' in session:
+            if session['role'] == 'Admin':
+                page = request.args.get("page", 1, type=int)
+                users = db.session.query(User).paginate(page=page, per_page=5)
 
-    return redirect(url_for('pannel.index'))
+                return render_template(
+                    'index.jinja',
+                    users=users,
+                    session=session
+                )
+
+            return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.start'))
+    
 
 @app.route('/errors/403', methods=['GET'])
 async def error_403():

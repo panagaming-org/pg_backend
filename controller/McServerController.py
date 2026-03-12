@@ -12,8 +12,6 @@ app_route = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app')
 if app_route not in sys.path:
     sys.path.insert(0, app_route)
 
-import app
-
 settings = {}
 with open('settings.json') as archivo:
     settings = json.load(archivo)

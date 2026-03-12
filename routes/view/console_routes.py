@@ -3,7 +3,7 @@ import sys
 from flask import request, Flask, flash, render_template, redirect, session, sessions, url_for, Blueprint
 from extensions import db
 import json
-from models.entity.Console import Console
+from models.Console import Console
 import controller.SecurityController as security
 import controller.McServerController as mcrcon
 
@@ -18,10 +18,9 @@ async def index():
         for console in consoles:
             if await mcrcon.test_connection(console.ip, console.port):
                 console.status = "online"
-
         consoles = consoles.paginate(page=page, per_page=5)
-        return render_template('console/index.jinja', consoles=consoles)
-    
+
+        return render_template('/minecraft/consoles/index.jinja', consoles=consoles)
     return redirect(url_for('auth.login'))
 
 @console_bp.route("/add", methods=["POST"])
@@ -54,9 +53,9 @@ async def add_console():
             return redirect(url_for('console.index'))
         
         return redirect(url_for('console.index'))
-
     return redirect(url_for('auth.login'))
 
+# Ruta para eliminar una consola remota.
 @console_bp.route("/delete/<int:id>", methods=["GET"])
 async def delete_console(id):
     if 'id' in session:
@@ -70,7 +69,6 @@ async def delete_console(id):
 
         flash("Consola no encontrada!", "error")
         return redirect(url_for('console.index'))
-
     return redirect(url_for('auth.login'))
 
 @console_bp.route("/access/<int:id>", methods=["GET", "POST"])
@@ -83,7 +81,7 @@ async def access_console(id):
             if console:
                 print(passwd)
                 return render_template(
-                    "console/console.jinja",
+                    "/minecraft/consoles/console.jinja",
                     console=console,
                     passwd=passwd
                 )
@@ -93,5 +91,5 @@ async def access_console(id):
     
         flash("Contraseña incorrecta!", "error")
         return redirect(url_for("console.index"))
-    
     return redirect(url_for('auth.login'))
+
