@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import request, Flask, render_template, redirect, session, sessions, url_for, Blueprint
+from flask import request, Flask, render_template, flash, redirect, session, sessions, url_for, Blueprint
 from extensions import db
 import service.SecurityService as security
 from models.entity.User import User
@@ -38,8 +38,10 @@ def create_user():
             db.session.add(user)
             db.session.commit()
 
-            return redirect(url_for('index'))
-        return redirect(url_for('index'))
+            return redirect(url_for('users.index'))
+        
+        flash("error", "Las contraseñas no coinciden!")
+        return redirect(url_for('users.index'))
     return redirect(url_for('index'))
 
 # Ruta para borrar un usuario
@@ -63,7 +65,7 @@ def edit_user_permissions(id):
         user = db.session.query(User).filter(User.id == id).first()
 
         if user.username == 'Administrator':
-            return redirect(url_for('index'))
+            return redirect(url_for('users.index'))
 
         pig = True if request.form.get('pig') == "on" else False
         mc_console = True if request.form.get('mc_console') == "on" else False
@@ -72,7 +74,7 @@ def edit_user_permissions(id):
         user.mc_console = mc_console
         db.session.commit()
 
-        return redirect(url_for('index'))            
+        return redirect(url_for('users.index'))            
     return redirect(url_for('auth.login'))
 
 # Ruta para dar una nueva contraseña a un usuario

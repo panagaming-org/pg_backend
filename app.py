@@ -9,16 +9,39 @@ from flask_sqlalchemy import SQLAlchemy
 from extensions import db
 from models.entity.User import User
 import service.SecurityService as security
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
 
 settings = {}
-
 with open("settings.json") as setting:
     settings = json.load(setting)
 
+USER = os.getenv("USER")
+PASSWORD = os.getenv("PASSWORD")
+
+from sqlalchemy import create_engine
+# from sqlalchemy.pool import NullPool
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env
+load_dotenv()
+
+# Fetch variables
+ID=os.getenv("id")
+USER = os.getenv("user")
+PASSWORD = os.getenv("password")
+HOST = os.getenv("host")
+PORT = os.getenv("port")
+DBNAME = os.getenv("dbname")
+
+# Construct the SQLAlchemy connection string
+DATABASE_URL = f'postgresql://postgres.{ID}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}'
+print(DATABASE_URL)
 app = Flask(__name__)
 app.secret_key = "a40ecfce592fd63c8fa2cda27d19e1dbc531e946"
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{settings['mysql']['user']}:{settings['mysql']['passwd']}@{settings['mysql']['host']}/{settings['mysql']['db']}"
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 from routes import auth_bp, skins_bp, console_bp, user_bp
