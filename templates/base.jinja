@@ -22,57 +22,93 @@
 </head>
 
 <body>
-    <div class="drawer lg:drawer-open">
+    <div class="drawer lg:drawer-open min-h-screen">
+
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
+
         <div class="drawer-content">
+
             <!-- Navbar -->
-            <nav class="navbar w-full bg-base-300">
+            <nav class="navbar w-full bg-neutral text-neutral-content shadow-md">
+
                 {%if session%}
                 <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
+
                     <!-- Sidebar toggle icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round"
-                        stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"
-                        class="my-1.5 inline-block size-4">
+                        stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="size-5">
+
                         <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
                         </path>
                         <path d="M9 4v16"></path>
                         <path d="M14 10l2 2l-2 2"></path>
+
                     </svg>
+
                 </label>
                 {%endif%}
-                <div class="px-4">Navbar Title</div>
+
+                <!-- Title -->
+                <div class="px-4 flex items-center gap-3">
+                    <span class="font-bold text-green-400 tracking-wide">
+                        PanaGaming Panel
+                    </span>
+
+                </div>
 
             </nav>
-            <div class="p-4"> {%block content%} {%endblock%}</div>
+
+            <!-- Main content -->
+            <div class="p-6">
+                {%block content%}
+                {%endblock%}
+            </div>
+
         </div>
 
+
+        <!-- Sidebar -->
         <div class="drawer-side is-drawer-close:overflow-visible">
-            <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
-            <div class="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
-                <!-- Sidebar content here -->
-                <ul class="menu w-full grow">
-                    <!-- List item -->
-                    <li>
-                        <a href="{{url_for('index')}}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Homepage">
-                            <!-- Home icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round"
-                                stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor"
-                                class="my-1.5 inline-block size-4">
-                                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                                <path
-                                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z">
-                                </path>
-                            </svg>
-                            <span class="is-drawer-close:hidden">Inico</span>
+
+            <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay">
+            </label>
+
+            <div class="flex min-h-full flex-col
+                    bg-neutral text-neutral-content
+                    is-drawer-close:w-16
+                    is-drawer-open:w-64
+                    transition-all duration-300">
+
+                <!-- Sidebar content -->
+                <ul class="menu w-full grow p-3 space-y-2">
+
+                    <!-- Logo -->
+                    <li class="rounded-full mb-2">
+
+                        <a href="{{url_for('index')}}" class="mx-auto rounded-full">
+                            <img src="/static/img/logo.png" class="mx-auto rounded-full w-16
+                                    transition hover:scale-105">
                         </a>
+
                     </li>
-                    <ul class="bg-base-200 rounded-box is-drawer-close:tooltip is-drawer-close:tooltip-right">
+
+
+                    <!-- Minecraft section -->
+                    <ul class="bg-base-200 rounded-box
+                           is-drawer-close:tooltip
+                           is-drawer-close:tooltip-right">
+
                         <li>
                             <details close>
+
                                 <summary>Minecraft</summary>
+
                                 <ul>
+
                                     <li>
-                                        <a href="{{url_for('console.index')}}">
+
+                                        <a href="{{url_for('console.index')}}" class="flex items-center gap-2">
+
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-terminal" viewBox="0 0 16 16">
                                                 <path
@@ -80,11 +116,17 @@
                                                 <path
                                                     d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
                                             </svg>
+
                                             <span>Consoles</span>
+
                                         </a>
+
                                     </li>
+
                                     <li>
-                                        <a href="{{url_for('skins.index')}}">
+
+                                        <a href="{{url_for('skins.index')}}" class="flex items-center gap-2">
+
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-file-earmark-image"
                                                 viewBox="0 0 16 16">
@@ -92,26 +134,46 @@
                                                 <path
                                                     d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1z" />
                                             </svg>
+
                                             <span>Skins</span>
+
                                         </a>
+
                                     </li>
+
                                 </ul>
+
                             </details>
+
                         </li>
+
                     </ul>
+
+
+                    <!-- Users -->
                     <li>
-                        <a href="{{url_for('users.index')}}">
+
+                        <a href="{{url_for('users.index')}}"
+                            class="flex items-center gap-2 hover:bg-base-300 rounded-lg">
+
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-people-fill" viewBox="0 0 16 16">
                                 <path
                                     d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
                             </svg>
+
                             <span>Usuarios</span>
+
                         </a>
+
                     </li>
+
                 </ul>
+
             </div>
+
         </div>
+
     </div>
 </body>
 
