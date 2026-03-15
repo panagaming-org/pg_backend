@@ -2,13 +2,13 @@ import os
 import sys
 from flask import request, Flask, render_template, current_app, redirect, session, sessions, url_for, Blueprint, jsonify, send_from_directory 
 from extensions import db
-import controller.StaticsController as statics
-from models.Skin import Image
+import service.StaticsService as statics
+from models.entity.Skin import Image
 import json
 
 skins_bp = Blueprint('skins', __name__)
-settings = {}
 
+settings = {}
 with open("settings.json") as setting:
     settings = json.load(setting)
 
@@ -44,7 +44,7 @@ async def upload():
             image_file = request.files['image']
 
             if image_file:
-                image_filename = await statics.upload_image(image_file)
+                image_filename = statics.upload_image(image_file)
                 image = Image(image_name, image_filename, int(session['id']))
                 db.session.add(image)
                 db.session.commit()
@@ -60,7 +60,7 @@ async def delete(id):
         if session['pig'] or session['role'] == 'Admin':
             image = db.session.query(Image).filter(Image.id == id).first()
             try:
-                await statics.delete_image(image.image)
+                statics.delete_image(image.image)
             except:
                 pass
             db.session.delete(image)

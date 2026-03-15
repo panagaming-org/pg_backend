@@ -3,20 +3,20 @@ import sys
 from flask import request, Flask, flash, render_template, redirect, session, sessions, url_for, Blueprint
 from extensions import db
 import json
-from models.Console import Console
-import controller.SecurityController as security
-import controller.McServerController as mcrcon
+from models.entity.Console import Console
+import service.SecurityService as security
+import service.McServerService as mcrcon
 
 console_bp = Blueprint('console', __name__)
 
 @console_bp.route("/", methods=["GET"])
-async def index(): 
+def index(): 
     if 'id' in session:
         page = request.args.get('page', 1, type=int)
         consoles = db.session.query(Console)
         
         for console in consoles:
-            if await mcrcon.test_connection(console.ip, console.port):
+            if mcrcon.test_connection(console.ip, console.port):
                 console.status = "online"
         consoles = consoles.paginate(page=page, per_page=5)
 
@@ -24,7 +24,7 @@ async def index():
     return redirect(url_for('auth.login'))
 
 @console_bp.route("/add", methods=["POST"])
-async def add_console():
+def add_console():
     if 'id' in session:
         name = request.form.get('name')
         ip = request.form.get('ip')
@@ -42,7 +42,7 @@ async def add_console():
             flash("Las contraseñas no coinciden!", "error")
             return redirect(url_for('console.index'))
         
-        passwd_hashed = await security.encrypt_passwd(passwd)
+        passwd_hashed = security.encrypt_passwd(passwd)
         
         try:
             new_console = Console(name=name, ip=ip, port=port, passwd=passwd_hashed ,status="Offline")
@@ -57,7 +57,7 @@ async def add_console():
 
 # Ruta para eliminar una consola remota.
 @console_bp.route("/delete/<int:id>", methods=["GET"])
-async def delete_console(id):
+def delete_console(id):
     if 'id' in session:
         console = db.session.query(Console).filter(Console.id == id).first()
 
@@ -71,15 +71,15 @@ async def delete_console(id):
         return redirect(url_for('console.index'))
     return redirect(url_for('auth.login'))
 
+
 @console_bp.route("/access/<int:id>", methods=["GET", "POST"])
-async def access_console(id):
+def access_console(id):
     if 'id' in session:
         passwd = request.form.get("passwd")
         console = db.session.query(Console).filter(Console.id == id).first()
 
-        if await security.verify_passwd(passwd, console.passwd):
+        if security.verify_passwd(passwd, console.passwd):
             if console:
-                print(passwd)
                 return render_template(
                     "/minecraft/consoles/console.jinja",
                     console=console,

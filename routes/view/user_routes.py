@@ -2,14 +2,14 @@ import os
 import sys
 from flask import request, Flask, render_template, redirect, session, sessions, url_for, Blueprint
 from extensions import db
-import controller.SecurityController as security
-from models.User import User
+import service.SecurityService as security
+from models.entity.User import User
 
 user_bp = Blueprint('users', __name__)
 
 @user_bp.route("/", methods=['GET'])
-async def index():
-    if await security.admin_user_exists():
+def index():
+    if security.admin_user_exists():
         if 'id' in session:
             if session['role'] == 'Admin':
                 page = request.args.get("page", 1, type=int)
@@ -26,14 +26,14 @@ async def index():
     return redirect(url_for('start'))
 
 @user_bp.route('/create', methods=['POST'])
-async def create_user():
+def create_user():
     if 'id' in session and session['role'] == 'Admin':
         username = request.form['username']
         passwd = request.form['passwd']
         passwd_confirm = request.form['passwd_confirm']
 
         if passwd == passwd_confirm:
-            passwd = await security.encrypt_passwd(passwd)
+            passwd = security.encrypt_passwd(passwd)
             user = User(username, passwd, 'User', False, False)
             db.session.add(user)
             db.session.commit()
@@ -58,7 +58,7 @@ async def delete_user(id):
 
 # Ruta para editar los permisos de un usuario
 @user_bp.route('/permission/edit/<int:id>', methods=['POST'])
-async def edit_user_permissions(id):
+def edit_user_permissions(id):
     if 'id' in session and session['role'] == 'Admin':
         user = db.session.query(User).filter(User.id == id).first()
 
@@ -77,14 +77,14 @@ async def edit_user_permissions(id):
 
 # Ruta para dar una nueva contraseña a un usuario
 @user_bp.route('/new/password/<int:id>', methods=['POST'])
-async def new_user_password(id):
+def new_user_password(id):
     if 'id' in session and session['role'] == 'Admin':
         passwd = request.form.get('passwd')
         passwd_confirm = request.form.get('passwd_confirm')
 
         if passwd == passwd_confirm:
             user = db.session.query(User).filter(User.id == id).first()
-            passwd = await security.encrypt_passwd(passwd)
+            passwd = security.encrypt_passwd(passwd)
 
             user.passwd = passwd
             db.session.commit()

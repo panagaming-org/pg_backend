@@ -7,8 +7,8 @@ from werkzeug.utils import secure_filename
 import asyncio
 from flask_sqlalchemy import SQLAlchemy
 from extensions import db
-from models.User import User
-import controller.SecurityController as security
+from models.entity.User import User
+import service.SecurityService as security
 
 settings = {}
 
@@ -34,26 +34,20 @@ app.app_context()
 
 # Ruta del index
 @app.route('/', methods=['GET'])
-async def index():
-    if await security.admin_user_exists():
+def index():
+    if security.admin_user_exists():
         if 'id' in session:
-            if session['role'] == 'Admin':
-                page = request.args.get("page", 1, type=int)
-                users = db.session.query(User).paginate(page=page, per_page=5)
-
-                return render_template(
-                    'index.jinja',
-                    users=users,
-                    session=session
-                )
-
-            return redirect(url_for('auth.login'))
+            return render_template(
+                '/main/index.jinja',
+                session=session
+            )
+        
         return redirect(url_for('auth.login'))
     return redirect(url_for('auth.start'))
     
 
 @app.route('/errors/403', methods=['GET'])
-async def error_403():
+def error_403():
     return render_template('/errors/403.jinja')
 
 

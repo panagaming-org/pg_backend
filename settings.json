@@ -7,6 +7,7 @@
         "auth_plugin": "mysql_native_password"
     },
     "flask": {
+        "ip": "localhost",
         "port": 5001,
         "debug": true,
         "host": "0.0.0.0"

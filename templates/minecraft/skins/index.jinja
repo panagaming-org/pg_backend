@@ -4,7 +4,7 @@
 
 {%block content%}
 <br><br><br><br>
-<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 shadow shadow-green-500">
+<div class="overflow-x-auto rounded-box bg-base-100 shadow shadow-green-500">
     <table class="table mx-auto">
         <thead>
             <tr>
@@ -14,13 +14,13 @@
                 </th>
                 <th>
                     {%if filter_text%}
-                    <form action="{{url_for('pannel.filtered')}}" method="post">
+                    <form action="{{url_for('skins.filtered')}}" method="post">
                         <input type="text" placeholder="Buscar" value="{{filter_text}}" name="text"
                             class="input input-sm input-success" />
                         <button type="submit" class="btn btn-sm btn-success">Buscar</button>
                     </form>
                     {%else%}
-                    <form action="{{url_for('pannel.filtered')}}" method="post">
+                    <form action="{{url_for('skins.filtered')}}" method="post">
                         <input type="text" placeholder="Buscar" name="text" class="input input-sm input-success" />
                         <button type="submit" class="btn btn-sm btn-success"><strong>Buscar</strong></button>
                     </form>
@@ -46,7 +46,7 @@
                         href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}:{{port}}/images/{{image.image}}</a>
                 </td>
                 <td>
-                    <a type="button" href="{{url_for('images.delete', id=image.id)}}"
+                    <a type="button" href="{{url_for('skins.delete', id=image.id)}}"
                         class="btn btn-sm btn-error">Borrar</a>
                 </td>
             </tr>
@@ -70,7 +70,7 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        <form method="post" action="{{url_for('images.upload')}}" enctype="multipart/form-data">
+        <form method="post" action="{{url_for('skins.upload')}}" enctype="multipart/form-data">
             <div>
                 <label for="image_name_input"><strong>Nombre de la Imagen</strong></label><br>
                 <input id="image_name_input" type="text" name="image_name" class="input input-sm input-success w-100" />

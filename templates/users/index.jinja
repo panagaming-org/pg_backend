@@ -4,7 +4,7 @@
 
 {%block content%}
 <br><br><br><br>
-<div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+<div class="overflow-x-auto shadow shadow-green-500 rounded-box bg-base-100">
     <table class="table">
         <!-- head -->
         <thead>
@@ -55,7 +55,7 @@
                     <form method="dialog">
                         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
-                    <form action="{{url_for('edit_user_permissions', id=user.id)}}" method="post">
+                    <form action="{{url_for('users.edit_user_permissions', id=user.id)}}" method="post">
                         {%if user.pig%}
                         <label for="skins_pannel_toggle">
                             Acceso al panel de Skins:
@@ -91,7 +91,7 @@
                     <form method="dialog">
                         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
-                    <form id="new_password" method="post" action="{{url_for('new_user_password', id=user.id)}}">
+                    <form id="new_password" method="post" action="{{url_for('users.new_user_password', id=user.id)}}">
                         <h2 class="text-xl text-center"><strong>Nueva Contraseña</strong></h2>
                         <br><br>
                         <div class="mx-auto text-center">
@@ -130,7 +130,7 @@
                     <form method="dialog">
                         <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
-                    <form id="new_password" method="post" action="{{url_for('new_user_password', id=user.id)}}">
+                    <form id="new_password" method="post" action="{{url_for('users.new_user_password', id=user.id)}}">
                         <h2 class="text-xl text-center"><strong>Nueva Contraseña</strong></h2>
                         <br><br>
                         <div class="mx-auto text-center">
@@ -169,7 +169,7 @@
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
-        <form action="{{url_for('create_user')}}" method="post">
+        <form action="{{url_for('users.create_user')}}" method="post">
             <div>
                 <label for="user_input text-bold"><strong>Nombre de Usuario</strong></label><br>
                 <input type="text" id="user_input" name="username" class="input input-sm input-success w-full" />
