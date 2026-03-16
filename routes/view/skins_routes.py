@@ -3,7 +3,7 @@ import sys
 from flask import request, Flask, render_template, current_app, redirect, session, sessions, url_for, Blueprint, jsonify, send_from_directory 
 from extensions import db
 import service.StaticsService as statics
-from models.entity.Skin import Image
+from models.entity.Skin import Skin
 import json
 
 skins_bp = Blueprint('skins', __name__)
@@ -18,8 +18,7 @@ async def index():
     if 'id' in session:
         if session['pig'] or session['role'] == 'Admin':
             page = request.args.get("page", 1, type=int)
-            images = db.session.query(Image).paginate(page=page, per_page=5)
-
+            images = db.session.query(Skin).paginate(page=page, per_page=5)
             ip = settings['flask']['ip']
             port = settings['flask']['port']
         
@@ -45,7 +44,7 @@ async def upload():
 
             if image_file:
                 image_filename = statics.upload_image(image_file)
-                image = Image(image_name, image_filename, int(session['id']))
+                image = Skin(image_name, image_filename, int(session['id']))
                 db.session.add(image)
                 db.session.commit()
         
@@ -58,7 +57,7 @@ async def upload():
 async def delete(id):
     if 'id' in session:
         if session['pig'] or session['role'] == 'Admin':
-            image = db.session.query(Image).filter(Image.id == id).first()
+            image = db.session.query(Skin).filter(Skin.id == id).first()
             try:
                 statics.delete_image(image.image)
             except:
@@ -79,7 +78,7 @@ async def filtered():
 
             if text:
                 page = request.args.get("page", 1, type=int)
-                images = db.session.query(Image).filter(Image.name.like(f"%{text}%")).paginate(page=page, per_page=5)
+                images = db.session.query(Skin).filter(Skin.name.like(f"%{text}%")).paginate(page=page, per_page=5)
 
                 ip = settings['flask']['ip']
                 port = settings['flask']['port']

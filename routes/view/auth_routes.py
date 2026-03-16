@@ -27,17 +27,10 @@ def login():
                 session['pig'] = True                    
                 return redirect(url_for('index'))
                 
-            error_msg = "Acceso no autorizado!!"
-            return render_template(
-                '/auth/login.jinja', 
-                error_msg=error_msg
-            )
+            return render_template('/auth/login.jinja')
             
         flash("error", "Fallo en el inicio de sesión!")
-        return render_template(
-            '/auth/login.jinja', 
-            error_msg=error_msg
-        )
+        return render_template('/auth/login.jinja')
     
     return redirect(url_for('index'))
 

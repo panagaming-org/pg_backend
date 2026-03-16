@@ -1,0 +1,95 @@
+{%extends 'base.jinja'%}
+
+{%block title%} Servidores {%endblock%}
+
+{%block content%}
+
+<div class="overflow-x-auto mt-10 rounded-box bg-base-100 shadow shadow-green-500">
+    <table class="table">
+        <!-- head -->
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Publico</th>
+                <th>
+                    <button class="btn btn-success rounded-full btn-sm" type="button"
+                        onclick="document.getElementById('add_server_modal').showModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        <strong>Agregar</strong>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for server in servers%}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+<br>
+<div class="join shadow shadow-green-500">
+    {%if servers.has_prev%}
+    <a type="button" href="?page={{servers.prev_num}}" class="join-item btn">«</a>
+    {%endif%}
+    <button class="join-item btn">Page {{servers.page}}</button>
+    {%if servers.has_next%}
+    <a type="button" href="?page={{servers.next_num}}" class="join-item btn">»</a>
+    {%endif%}
+</div>
+
+<dialog id="add_server_modal" class="modal">
+    <div class="modal-box shadow shadow-green-500">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-lg font-bold">Nuevo Servidor</h3>
+        <hr />
+        <br>
+        <form class="w-full max-w-lg">
+            <div>
+                <label><strong>Nombre</strong></label><br>
+                <input type="text" name="name" class="input input-success w-full">
+            </div>
+            <br>
+            <div>
+                <label><strong>Descripción</strong></label><br>
+                <textarea class="textarea textarea-success w-full" name="description"></textarea>
+            </div>
+            <br>
+            <div>
+                <label><strong>Juego</strong></label><br>
+                <select name="game" class="select select-success w-full">
+                    <option disabled selected>Videojuego</option>
+                    <option>Minecraft</option>
+                    <option>Garry's Mod</option>
+                    <option>Ark: Survival Evolved</option>
+                </select>
+            </div>
+            <br>
+            <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label><strong>Host</strong></label>
+                    <input class="input input-success" name="host" type="text">
+                </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label><strong>Port</strong></label>
+                    <input type="number" name="port" class="input input-success">
+                </div>
+            </div>
+            <br>
+            <button class="btn btn-success btn-block font-bold" type="submit">Agregar</button>
+        </form>
+    </div>
+</dialog>
+{%endblock%}

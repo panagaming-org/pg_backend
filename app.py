@@ -28,32 +28,31 @@ import os
 load_dotenv()
 
 # Fetch variables
-ID=os.getenv("id")
-USER = os.getenv("user")
-PASSWORD = os.getenv("password")
-HOST = os.getenv("host")
-PORT = os.getenv("port")
-DBNAME = os.getenv("dbname")
+SP_ID=os.getenv("sp_id")
+SP_USER = os.getenv("sp_user")
+SP_PASSWORD = os.getenv("sp_password")
+SP_HOST = os.getenv("sp_host")
+SP_PORT = os.getenv("sp_port")
+SP_DATABASE = os.getenv("sp_database")
 
 # Construct the SQLAlchemy connection string
-DATABASE_URL = f'postgresql://postgres.{ID}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}'
-print(DATABASE_URL)
+DATABASE_URL = f'postgresql://postgres.{SP_ID}:{SP_PASSWORD}@{SP_HOST}:{SP_PORT}/{SP_DATABASE}'
 app = Flask(__name__)
 app.secret_key = "a40ecfce592fd63c8fa2cda27d19e1dbc531e946"
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-from routes import auth_bp, skins_bp, console_bp, user_bp
+from routes import auth_bp, skins_bp, console_bp, user_bp, server_bp
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
 app.register_blueprint(skins_bp, url_prefix="/mc/images")
 app.register_blueprint(console_bp, url_prefix="/mc/consoles")
 app.register_blueprint(user_bp, url_prefix="/users")
+app.register_blueprint(server_bp, url_prefix="/servers")
 
 db.init_app(app)
 app.app_context()
-
 
 # Ruta del index
 @app.route('/', methods=['GET'])
@@ -63,16 +62,13 @@ def index():
             return render_template(
                 '/main/index.jinja',
                 session=session
-            )
-        
+            )        
         return redirect(url_for('auth.login'))
     return redirect(url_for('auth.start'))
-    
 
 @app.route('/errors/403', methods=['GET'])
 def error_403():
     return render_template('/errors/403.jinja')
-
 
 if __name__ == "__main__":
     with app.app_context():

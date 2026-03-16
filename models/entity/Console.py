@@ -3,7 +3,7 @@ from extensions import db
 class Console(db.Model):
     __tablename__ = 'console'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(300), unique=True)
     ip = db.Column(db.String(100), unique=True)
     port = db.Column(db.Numeric)
