@@ -9,6 +9,6 @@ class ServerImage(db.Model):
     id_server = db.Column(db.Integer, db.ForeignKey('servers.id'))
 
     def __init__(self, name, filename, id_server):
-        self.name = name,
-        self.filename = filename,
+        self.name = name
+        self.filename = filename
         self.id_server = id_server

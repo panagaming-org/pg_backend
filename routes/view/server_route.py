@@ -29,6 +29,7 @@ def add_server():
         description = request.form.get("description")
         game = request.form.get("game")
         host = request.form.get("host")
+        public = False
         port = 0
         
         try:
@@ -42,13 +43,13 @@ def add_server():
             return redirect(url_for('server.index'))
         
         new_server = Server(
-            name=name,
-            description=description,
+            name=str(name),
+            description=str(description) if description else "",
             status="Offline",
-            public=0,
-            game=game,
-            host=host,
-            port=port
+            public=public,
+            game=str(game),
+            host=str(host),
+            port=int(port)
         )
         db.session.add(new_server)
         db.session.commit()

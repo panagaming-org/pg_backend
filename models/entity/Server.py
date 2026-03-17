@@ -13,10 +13,10 @@ class Server(db.Model):
     port = db.Column(db.Numeric)
 
     def __init__(self, name, description, status, public, game, host, port):
-        self.name = name,
-        self.description = description,
-        self.status = status,
-        self.public = public,
-        self.game = game,
-        self.host = host,
+        self.name = name
+        self.description = description
+        self.status = status
+        self.public = public
+        self.game = game
+        self.host = host
         self.port = port

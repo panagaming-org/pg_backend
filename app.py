@@ -6,11 +6,13 @@ from flask import request, Flask, render_template, redirect, session, sessions, 
 from werkzeug.utils import secure_filename
 import asyncio
 from flask_sqlalchemy import SQLAlchemy
-from extensions import db
+from flask_socketio import SocketIO
+from extensions import db, socketio
 from models.entity.User import User
 import service.SecurityService as security
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
+from models.entity.Server import Server
 
 settings = {}
 with open("settings.json") as setting:
@@ -43,6 +45,11 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+db.init_app(app)
+app.app_context()
+
+socketio.init_app(app)
+
 from routes import auth_bp, skins_bp, console_bp, user_bp, server_bp
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
@@ -50,9 +57,6 @@ app.register_blueprint(skins_bp, url_prefix="/mc/images")
 app.register_blueprint(console_bp, url_prefix="/mc/consoles")
 app.register_blueprint(user_bp, url_prefix="/users")
 app.register_blueprint(server_bp, url_prefix="/servers")
-
-db.init_app(app)
-app.app_context()
 
 # Ruta del index
 @app.route('/', methods=['GET'])
@@ -72,10 +76,13 @@ def error_403():
 
 if __name__ == "__main__":
     with app.app_context():
+        import events.server_events
         db.create_all()
 
-    app.run(
+    socketio.run(
+        app,
         host=settings['flask']['host'],
         port=settings['flask']['port'],
-        debug=settings['flask']['debug']
+        debug=settings['flask']['debug'],
+        allow_unsafe_werkzeug=True
     )

@@ -3,7 +3,7 @@
 {%block title%} Servidores {%endblock%}
 
 {%block content%}
-
+<script type="module" src="/static/scripts/server/visibility.js"></script>
 <div class="overflow-x-auto mt-10 rounded-box bg-base-100 shadow shadow-green-500">
     <table class="table">
         <!-- head -->
@@ -28,9 +28,17 @@
         <tbody>
             {%for server in servers%}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{server.name}}</td>
+                <td>{{server.status}}</td>
+                <td>
+                    <input type="hidden" id="server_id" value="{{server.id}}">
+                    {%if server.public%}
+                    <input type="checkbox" id="public_toggle" name="public" checked="checked" class="toggle toggle-success" />
+                    {%else%}
+                    <input type="checkbox" id="public_toggle" name="public" class="toggle toggle-success" />
+                    {%endif%}
+                    <script type="module" src="/static/scripts/server/visibility.js"></script>
+                </td>
                 <td></td>
             </tr>
             {%endfor%}
@@ -56,7 +64,7 @@
         <h3 class="text-lg font-bold">Nuevo Servidor</h3>
         <hr />
         <br>
-        <form class="w-full max-w-lg">
+        <form action="{{url_for('server.add_server')}}" method="post" class="w-full max-w-lg">
             <div>
                 <label><strong>Nombre</strong></label><br>
                 <input type="text" name="name" class="input input-success w-full">
@@ -79,11 +87,11 @@
             <br>
             <div class="flex flex-wrap -mx-3 mb-2">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label><strong>Host</strong></label>
+                    <label><strong>Host</strong></label><br>
                     <input class="input input-success" name="host" type="text">
                 </div>
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label><strong>Port</strong></label>
+                    <label><strong>Port</strong></label><br>
                     <input type="number" name="port" class="input input-success">
                 </div>
             </div>
@@ -92,4 +100,5 @@
         </form>
     </div>
 </dialog>
+
 {%endblock%}
