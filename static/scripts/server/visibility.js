@@ -14,5 +14,5 @@ document.getElementById('public_toggle').addEventListener("change", (event)=> {
             "public": false
         }
     }
-    socket.emit("change_visibility", data);
+    socket.emit("change_server_visibility", data);
 });

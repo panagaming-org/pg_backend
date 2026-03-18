@@ -4,6 +4,7 @@
 
 {%block content%}
 <script type="module" src="/static/scripts/server/visibility.js"></script>
+<script type="module" src="/static/scripts/server/status_event.js"></script>
 <div class="overflow-x-auto mt-10 rounded-box bg-base-100 shadow shadow-green-500">
     <table class="table">
         <!-- head -->
@@ -29,11 +30,41 @@
             {%for server in servers%}
             <tr>
                 <td>{{server.name}}</td>
-                <td>{{server.status}}</td>
+                <td>
+                    <input type="hidden" value="{{server.id}}" id="server_id" />
+                    <select id="status_select" class="w-45 select select-success">
+                        {%if server.status == "Offline"%}
+                        <option value="Offline" selected>Desconectado</option>
+                        <option value="Online">En línea</option>
+                        <option value="Maintaining">En Mantenimiento</option>
+                        <option value="Comingsoon">Próximamente</option>
+                        {%endif%}
+                        {%if server.status == "Online"%}
+                        <option value="Offline">Desconectado</option>
+                        <option value="Online" selected>En línea</option>
+                        <option value="Maintaining">En Mantenimiento</option>
+                        <option value="Comingsoon">Próximamente</option>
+                        {%endif%}
+                        {%if server.status == "Maintaining"%}
+                        <option value="Offline">Desconectado</option>
+                        <option value="Online">En línea</option>
+                        <option value="Maintaining" selected>En Mantenimiento</option>
+                        <option value="Comingsoon">Próximamente</option>
+                        {%endif%}
+                        {%if server.status == "Comingsoon"%}
+                        <option value="Offline">Desconectado</option>
+                        <option value="Online">En línea</option>
+                        <option value="Maintaining" selected>En Mantenimiento</option>
+                        <option value="Comingsoon" selected>Próximamente</option>
+                        {%endif%}
+                    </select>
+                    <script type="module" src="/static/scripts/server/status_event.js"></script>
+                </td>
                 <td>
                     <input type="hidden" id="server_id" value="{{server.id}}">
                     {%if server.public%}
-                    <input type="checkbox" id="public_toggle" name="public" checked="checked" class="toggle toggle-success" />
+                    <input type="checkbox" id="public_toggle" name="public" checked="checked"
+                        class="toggle toggle-success" />
                     {%else%}
                     <input type="checkbox" id="public_toggle" name="public" class="toggle toggle-success" />
                     {%endif%}
