@@ -9,6 +9,10 @@ import json
 
 server_bp = Blueprint('server', __name__)
 
+settings = {}
+with open("settings.json") as setting:
+    settings = json.load(setting)
+
 # Pagina principal.
 @server_bp.route('/', methods=['GET'])
 def index():
@@ -59,4 +63,46 @@ def add_server():
 
     return redirect(url_for('auth.login'))
         
+@server_bp.route('/images/<int:id>')
+def images(id):
+    if 'id' in session:
+        count_images = db.session.query(ServerImage).filter(ServerImage.id_server == id).count()
+        images = db.session.query(ServerImage).filter(ServerImage.id_server == id)
+        
+        host = settings['flask']['ip']
+        port = settings['flask']['port']
+        
+        return render_template(
+            '/servers/images.jinja',
+            images=images,
+            host=host,
+            port=port,
+            id_server=id,
+            count_images=count_images
+        )
 
+    return redirect(url_for('auth.login'))
+
+@server_bp.route('/images/add', methods=['POST'])
+def add_image():
+    if 'id' in session:
+        id_server = 0
+        name = request.form.get('name')
+        filename = None
+        image_file = request.files['image']
+        id_server = int(request.form.get('id_server'))
+
+        count_images = db.session.query(ServerImage).filter(ServerImage.id_server == id).count()
+
+
+        if count_images < 5:
+            if image_file:
+                image_filename = statics.upload_image(image_file)
+                image_server = ServerImage(name, image_filename, id_server)
+                db.session.add(image_server)
+                db.session.commit()
+        else:
+            flash("error", "Un servidor no puede tener más de 5 imágenes!")
+
+        return redirect(url_for('server.images', id=id_server))
+    return redirect(url_for('auth.login'))

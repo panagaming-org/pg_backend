@@ -11,6 +11,7 @@ class Server(db.Model):
     game = db.Column(db.String(300))
     host = db.Column(db.String(300))
     port = db.Column(db.Numeric)
+    images = db.relationship('ServerImage', backref='server', lazy=True)
 
     def __init__(self, name, description, status, public, game, host, port):
         self.name = name

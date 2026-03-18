@@ -2,6 +2,7 @@ from extensions import socketio, db
 from flask_socketio import emit
 from models.entity.Server import Server
 
+# Evento para cambiar la visibilidad del servidor.
 @socketio.on('change_server_visibility')
 def change_visibility(data):
     id_server = data["id"]
@@ -11,6 +12,7 @@ def change_visibility(data):
     server.public = public
     db.session.commit()
 
+# Evento para cambiar el estado del servidor.
 @socketio.on('change_server_status')
 def change_server_status(data):
     id_server = data["id"]

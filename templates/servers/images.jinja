@@ -1,0 +1,66 @@
+{%extends 'base.jinja'%}
+
+{%block title%} Imágenes {%endblock%}
+
+{%block content%}
+<br><br>
+<div class="mx-auto overflow-x-auto rounded-box bg-base-100 shadow shadow-green-500">
+    <table class="table">
+        <!-- head -->
+        <thead>
+            <tr>
+                <th>
+                    <button onclick="document.getElementById('add_image_modal').showModal()"
+                        class="btn btn-success btn-sm rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        <strong>Agregar</strong>
+                    </button>
+                </th>
+                <th>{{count_images}}/5</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for image in images%}
+            <tr>
+                <th>
+                    <img width="100" class="rounded" src="http://{{ host }}:{{ port }}/api/images/{{ image.filename }}"
+                        alt="{{ image.name }}" />
+                </th>
+                <td>
+                    <a href="http://{{ host }}:{{ port }}/api/images/{{ image.filename }}"
+                        class="link link-success">http://{{ host }}:{{ port }}/api/images/{{ image.filename }}</a>
+                </td>
+                <td></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    <dialog id="add_image_modal" class="modal">
+        <div class="modal-box shadow shadow-green-500">
+            <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+            <form method="post" action="{{url_for('server.add_image')}}" enctype="multipart/form-data">
+                <input type="hidden" value="{{id_server}}" name="id_server" />
+                <div>
+                    <label for="image_name_input"><strong>Nombre de la Imagen</strong></label><br>
+                    <input id="image_name_input" type="text" name="name" class="input input-sm input-success w-100" />
+                </div>
+                <br>
+                <div>
+                    <label for="image_input"><strong>Imagen</strong></label><br>
+                    <input id="image_input" type="file" name="image"
+                        class="file-input file-input-sm file-input-success" />
+                </div>
+                <br>
+                <button class="btn btn-sm btn-block btn-success" type="submit"><strong>Subir Imagen</strong></button>
+            </form>
+        </div>
+    </dialog>
+</div>
+{%endblock%}
