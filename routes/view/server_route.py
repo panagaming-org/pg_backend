@@ -94,15 +94,30 @@ def add_image():
 
         count_images = db.session.query(ServerImage).filter(ServerImage.id_server == id).count()
 
-
         if count_images < 5:
             if image_file:
                 image_filename = statics.upload_image(image_file)
                 image_server = ServerImage(name, image_filename, id_server)
                 db.session.add(image_server)
                 db.session.commit()
+            else:
+                flash("error", "No has introducido la imagen!")
         else:
             flash("error", "Un servidor no puede tener más de 5 imágenes!")
 
         return redirect(url_for('server.images', id=id_server))
+    return redirect(url_for('auth.login'))
+
+@server_bp.route('/images/delete/<int:id>', methods=['GET'])
+def delete_image(id):
+    if 'id' in session:
+        server_image = db.session.query(ServerImage).filter(ServerImage.id == id).first()
+        try:
+            statics.delete_image(server_image.filename)
+        except:
+            pass
+        db.session.delete(server_image)
+        db.session.commit()
+
+        return redirect(url_for('server.images', id=server_image.id_server))
     return redirect(url_for('auth.login'))
