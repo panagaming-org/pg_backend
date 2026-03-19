@@ -131,6 +131,7 @@
                     </form>
                     <form id="new_password" method="post" action="{{url_for('users.new_user_password', id=user.id)}}">
                         <h2 class="text-xl text-center"><strong>Nueva Contraseña</strong></h2>
+                        <hr/>
                         <br><br>
                         <div class="mx-auto text-center">
                             <label for="password"><strong>Contraseña</strong></label><br>
@@ -164,7 +165,7 @@
 
 <!-- You can open the modal using ID.showModal() method -->
 <dialog id="new_modal_user" class="modal">
-    <div class="modal-box">
+    <div class="modal-box shadow shadow-green-500">
         <form method="dialog">
             <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
@@ -172,12 +173,13 @@
             <div>
                 <label for="user_input text-bold"><strong>Nombre de Usuario</strong></label><br>
                 <input type="text" id="user_input" name="username" class="input input-sm input-success w-full" />
-                <div class="flex w-full">
-                    <div class="p-2">
+                <div class="flex w-full mt-2">
+                    <div>
                         <label for="passwd_input"><strong>Contraseña</strong></label>
                         <input type="password" id="passwd_input" name="passwd" class="input input-sm input-success" />
                     </div>
-                    <div class="p-2">
+                    <div class="w-3"></div>
+                    <div>
                         <label for="passwd_input_confirm"><strong>Confirmar Contraseña</strong></label>
                         <input type="password" id="passwd_input_confirm" name="passwd_confirm"
                             class="input input-sm input-success" />
@@ -185,7 +187,7 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-wide btn-sm btn-success w-full"><strong>Crear</strong></button>
+            <button type="submit" class="btn btn-block btn-sm btn-success"><strong>Crear</strong></button>
         </form>
     </div>
 </dialog>
