@@ -23,7 +23,8 @@ def index():
         servers = db.session.query(Server).paginate(page=page, per_page=5)
         return render_template(
             '/servers/index.jinja',
-            servers=servers
+            servers=servers,
+            session=session
         )
     
     return redirect(url_for('auth.login'))
@@ -126,7 +127,8 @@ def images(id):
             host=host,
             port=port,
             id_server=id,
-            count_images=count_images
+            count_images=count_images,
+            session=session
         )
 
     return redirect(url_for('auth.login'))

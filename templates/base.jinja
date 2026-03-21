@@ -17,73 +17,92 @@
         }
 
         html {
-            background-image: url(/static/img/fondo.png);
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url(/static/img/main.png);
+            background-repeat: repeat;
+            background-attachment: fixed;
+            background-size: 1600px;
         }
     </style>
 </head>
 
 <body>
     <div class="drawer lg:drawer-open min-h-screen">
-
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-
         <div class="drawer-content">
-
-            <!-- Navbar -->
-            <nav class="navbar w-full bg-neutral text-neutral-content shadow-md">
-
+            <nav class="navbar w-full bg-base-200 text-neutral-content shadow-md">
                 {%if session%}
                 <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
-
-                    <!-- Sidebar toggle icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linejoin="round"
-                        stroke-linecap="round" stroke-width="2" fill="none" stroke="currentColor" class="size-5">
-
-                        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
-                        </path>
-                        <path d="M9 4v16"></path>
-                        <path d="M14 10l2 2l-2 2"></path>
-
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                     </svg>
-
                 </label>
                 {%endif%}
-
-                <!-- Title -->
-                <div class="px-4 flex items-center gap-3">
+                <div class="px-4 flex-1 items-center gap-3">
                     <span class="font-bold text-green-400 tracking-wide">
                         PanaGaming Panel
                     </span>
-
+                </div>
+                <div class="flex-none">
+                    <div class="dropdown dropdown-end">
+                        {%if session['role'] == "Admin"%}
+                        <span>Administrador</span>
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                </svg>
+                            </div>
+                        </div>
+                        <ul tabindex="-1"
+                            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+                        </ul>
+                        {%else%}
+                        <span>{{session['username']}}</span>
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                            <div class="w-10 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                    <path fill-rule="evenodd"
+                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                </svg>
+                            </div>
+                        </div>
+                        <ul tabindex="-1"
+                            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                            <li><a href="{{url_for('auth.logout')}}">Logout</a></li>
+                        </ul>
+                        {%endif%}
+                    </div>
                 </div>
 
             </nav>
-
-            <!-- Main content -->
             <div class="p-6">
                 {%block content%}
                 {%endblock%}
             </div>
-
         </div>
 
         {%if session%}
         <!-- Sidebar -->
         <div class="drawer-side is-drawer-close:overflow-visible">
-
             <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay">
             </label>
-
             <div class="flex min-h-full flex-col
-                    bg-neutral text-neutral-content
+                    bg-base-100 text-neutral-content
                     is-drawer-close:w-16
                     is-drawer-open:w-64
                     transition-all duration-300">
 
-                <!-- Sidebar content -->
                 <ul class="menu w-full grow p-3 space-y-2">
-
-                    <!-- Logo -->
                     <li class="rounded-full mb-2">
                         <a href="{{url_for('index')}}" class="mx-auto rounded-full">
                             <img src="/static/img/logo.png" class="mx-auto rounded-full w-16
@@ -91,12 +110,10 @@
                         </a>
                     </li>
 
-
                     <!-- Minecraft section -->
                     <ul class="bg-base-200 rounded-box
                            is-drawer-close:tooltip
                            is-drawer-close:tooltip-right">
-
                         <li>
                             <details close>
                                 <summary>Minecraft</summary>

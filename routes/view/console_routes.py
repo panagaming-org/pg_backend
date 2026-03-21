@@ -20,7 +20,11 @@ def index():
                 console.status = "online"
         consoles = consoles.paginate(page=page, per_page=5)
 
-        return render_template('/minecraft/consoles/index.jinja', consoles=consoles)
+        return render_template(
+            '/minecraft/consoles/index.jinja', 
+            consoles=consoles,
+            session=session
+        )
     return redirect(url_for('auth.login'))
 
 @console_bp.route("/add", methods=["POST"])
@@ -82,7 +86,8 @@ def access_console(id):
                 return render_template(
                     "/minecraft/consoles/console.jinja",
                     console=console,
-                    passwd=passwd
+                    passwd=passwd,
+                    session=session
                 )
             
             flash("error", "Consola no encontrada!")
