@@ -78,6 +78,7 @@ def error_403():
 if __name__ == "__main__":
     with app.app_context():
         import events.server_events
+        import events.console_events
         db.create_all()
 
     socketio.run(
