@@ -5,6 +5,8 @@ from extensions import db
 import service.StaticsService as statics
 from models.entity.Server import Server
 from models.entity.ServerImage import ServerImage
+import models.dao.ImageServerDAO as image_server_dao 
+import models.dao.ServerDAO as server_dao
 import json
 
 server_bp = Blueprint('server', __name__)
@@ -62,7 +64,53 @@ def add_server():
         return redirect(url_for('server.index'))
 
     return redirect(url_for('auth.login'))
+
+@server_bp.route('/edit/<int:id>', methods=['POST'])
+def edit_server(id):
+    if 'id' in session:
+        name = request.form.get("name")
+        description = request.form.get("description")
+        game = request.form.get("game")
+        host = request.form.get("host")
+        port = 0
         
+        try:
+            port = int(request.form.get("port"))
+        except:
+            flash("error", "El puerto debe ser numérico!")
+            return redirect(url_for('server.index'))
+
+        if name == None or game == None:
+            flash("error", "El campo del nombre y del videojuego no deben estar vacíos.")
+            return redirect(url_for('server.index'))
+        
+        server = db.session.query(Server).filter(Server.id == id).first()
+        server.name = name
+        server.description = description
+        server.game = game
+        server.host = host
+        server.port = port
+        db.session.commit()
+
+        flash("success", "Servidor actualizado!")
+        return redirect(url_for('server.index'))
+
+    return redirect(url_for('auth.login'))
+
+@server_bp.route('/delete/<int:id>')
+def delete_server(id):
+    if 'id' in session:
+        images = image_server_dao.get_by_idserver(id)
+        for image in images:
+            image_server_dao.delete(image.id)
+
+        server = server_dao.get_by_id(id)
+        server_dao.delete(server)
+
+        return redirect(url_for('server.index'))
+    return redirect(url_for('auth.login'))
+
+
 @server_bp.route('/images/<int:id>')
 def images(id):
     if 'id' in session:
@@ -111,13 +159,7 @@ def add_image():
 @server_bp.route('/images/delete/<int:id>', methods=['GET'])
 def delete_image(id):
     if 'id' in session:
-        server_image = db.session.query(ServerImage).filter(ServerImage.id == id).first()
-        try:
-            statics.delete_image(server_image.filename)
-        except:
-            pass
-        db.session.delete(server_image)
-        db.session.commit()
-
+        images = image_server_dao.delete(id)
+        flash("success", "Imagen eliminado!")
         return redirect(url_for('server.images', id=server_image.id_server))
     return redirect(url_for('auth.login'))

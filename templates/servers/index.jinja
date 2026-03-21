@@ -71,7 +71,8 @@
                     <script type="module" src="/static/scripts/server/visibility.js"></script>
                 </td>
                 <td>
-                    <a type="button" href="{{url_for('server.images', id=server.id)}}" class="btn btn-soft btn-sm btn-circle rounded-full">
+                    <a type="button" href="{{url_for('server.images', id=server.id)}}"
+                        class="btn btn-soft btn-sm btn-circle rounded-full">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-images" viewBox="0 0 16 16">
                             <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
@@ -79,8 +80,106 @@
                                 d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z" />
                         </svg>
                     </a>
+                    <button onclick="document.getElementById('edit_server_modal').showModal()"
+                        class="btn btn-sm btn-info btn-circle btn-soft rounded-full font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path
+                                d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                            <path fill-rule="evenodd"
+                                d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                        </svg>
+                    </button>
+                    <button onclick="document.getElementById('delete_server_modal').showModal()"
+                        class="btn btn-error btn-circle btn-soft btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                        </svg>
+                    </button>
                 </td>
             </tr>
+
+            <dialog id="edit_server_modal" class="modal">
+                <div class="modal-box shadow shadow-green-500">
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <h3 class="text-lg font-bold">Nuevo Servidor</h3>
+                    <hr />
+                    <br>
+                    <form action="{{url_for('server.edit_server', id=server.id)}}" method="post"
+                        class="w-full max-w-lg">
+                        <div>
+                            <label><strong>Nombre</strong></label><br>
+                            <input type="text" name="name" value="{{server.name}}" class="input input-success w-full">
+                        </div>
+                        <br>
+                        <div>
+                            <label><strong>Descripción</strong></label><br>
+                            <textarea class="textarea textarea-success w-full text-left" name="description">
+                                {{server.description}}
+                            </textarea>
+                        </div>
+                        <br>
+                        <div>
+                            <label><strong>Juego</strong></label><br>
+                            <select name="game" class="select select-success w-full">
+                                {%if server.game == "Minecraft"%}
+                                <option disabled>Videojuego</option>
+                                <option value="Minecraft" selected>Minecraft</option>
+                                <option value="gmod">Garry's Mod</option>
+                                <option value="arkse">Ark: Survival Evolved</option>
+                                {%endif%}
+                                {%if server.game == "gmod"%}
+                                <option disabled>Videojuego</option>
+                                <option value="Minecraft">Minecraft</option>
+                                <option value="gmod" selected>Garry's Mod</option>
+                                <option value="arkse">Ark: Survival Evolved</option>
+                                {%endif%}
+                                {%if server.game == "arkse"%}
+                                <option disabled>Videojuego</option>
+                                <option value="Minecraft">Minecraft</option>
+                                <option value="gmod">Garry's Mod</option>
+                                <option value="arkse" selected>Ark: Survival Evolved</option>
+                                {%endif%}
+                                {%if server.game == 'None'%}
+                                <option disabled selected>Videojuego</option>
+                                <option value="Minecraft">Minecraft</option>
+                                <option value="gmod">Garry's Mod</option>
+                                <option value="arkse">Ark: Survival Evolved</option>
+                                {%endif%}
+                            </select>
+                        </div>
+                        <br>
+                        <div class="flex flex-wrap -mx-3 mb-2">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label><strong>Host</strong></label><br>
+                                <input value="{{server.host}}" class="input input-success" name="host" type="text">
+                            </div>
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <label><strong>Port</strong></label><br>
+                                <input value="{{server.port}}" type="number" name="port" class="input input-success">
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-success btn-block font-bold" type="submit">Editar</button>
+                    </form>
+                </div>
+            </dialog>
+            <dialog id="delete_server_modal" class="modal">
+                <div class="modal-box shadow shadow-green-500">
+                    <h3 class="text-lg font-bold">¿Estás seguro que quieres eliminar el servidor?</h3>
+                    <div class="modal-action">
+                        <form method="dialog">
+                            <a href="{{url_for('server.delete_server', id=server.id)}}"
+                                class="btn btn-error">Eliminar</a>
+                            <button class="btn">Cancelar</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
             {%endfor%}
         </tbody>
     </table>
@@ -119,9 +218,9 @@
                 <label><strong>Juego</strong></label><br>
                 <select name="game" class="select select-success w-full">
                     <option disabled selected>Videojuego</option>
-                    <option>Minecraft</option>
-                    <option>Garry's Mod</option>
-                    <option>Ark: Survival Evolved</option>
+                    <option value="minecraft">Minecraft</option>
+                    <option value="gmod">Garry's Mod</option>
+                    <option value="arkse">Ark: Survival Evolved</option>
                 </select>
             </div>
             <br>
@@ -140,5 +239,4 @@
         </form>
     </div>
 </dialog>
-
 {%endblock%}
