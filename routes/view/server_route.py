@@ -142,7 +142,7 @@ def add_image():
         image_file = request.files['image']
         id_server = int(request.form.get('id_server'))
 
-        count_images = db.session.query(ServerImage).filter(ServerImage.id_server == id).count()
+        count_images = image_server_dao.get_count_by_server(id_server)
 
         if count_images < 5:
             if image_file:
@@ -158,10 +158,13 @@ def add_image():
         return redirect(url_for('server.images', id=id_server))
     return redirect(url_for('auth.login'))
 
-@server_bp.route('/images/delete/<int:id>', methods=['GET'])
-def delete_image(id):
+@server_bp.route('/images/delete', methods=['GET', 'POST'])
+def delete_image():
     if 'id' in session:
-        images = image_server_dao.delete(id)
-        flash("success", "Imagen eliminado!")
-        return redirect(url_for('server.images', id=server_image.id_server))
+        id_server = int(request.form.get('id_server'))
+        id_image = int(request.form.get('id_image'))
+
+        image_server_dao.delete(id_image)
+        flash('success', 'La imagen se ha eliminado correctamente!!')
+        return redirect(url_for('server.images', id=id_server))
     return redirect(url_for('auth.login'))

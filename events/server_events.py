@@ -1,6 +1,7 @@
 from extensions import socketio, db
 from flask_socketio import emit
 from models.entity.Server import Server
+import models.dao.ImageServerDAO as image_server_dao
 
 # Evento para cambiar la visibilidad del servidor.
 @socketio.on('change_server_visibility')

@@ -15,3 +15,10 @@ def delete(id):
     image = get_by_id(id)
     db.session.delete(image)
     db.session.commit()
+
+# Function that return total number of images that has a server.
+def get_count_by_server(id):
+    count_images = db.session.query(ServerImage).filter(
+        ServerImage.id_server == id
+    ).count()
+    return count_images

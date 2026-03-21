@@ -46,6 +46,7 @@
                         PanaGaming Panel
                     </span>
                 </div>
+                {%if session%}
                 <div class="flex-none">
                     <div class="dropdown dropdown-end">
                         {%if session['role'] == "Admin"%}
@@ -83,9 +84,36 @@
                         {%endif%}
                     </div>
                 </div>
-
+                {%endif%}
             </nav>
             <div class="p-6">
+                {%with messages = get_flashed_messages(with_categories=true)%}
+                <div id="alert-div" class="text-center">
+                <br><br>
+                {%for category, message in messages%}
+                    {%if category == 'error'%}
+                    <div id="error-alert" role="alert" class="alert alert-error alert-soft m-2">
+                        <span id="alert-message">{{message}}</span>
+                    </div>
+                    {%endif%}
+                    {%if category == "warning"%}
+                    <div id="warning-alert" role="alert" class="alert alert-warning alert-soft m-2">
+                        <span id="alert-message">{{message}}</span>
+                    </div>
+                    {%endif%}
+                    {%if category == "success"%}
+                    <div id="success-alert" role="alert" class="alert alert-success alert-soft m-2">
+                        <span id="alert-message">{{message}}</span>
+                    </div>
+                    {%endif%}
+                    {%if category == "info"%}
+                    <div id="info-alert" role="alert" class="alert alert-info alert-soft m-2">
+                        <span id="alert-message">{{message}}</span>
+                    </div>
+                    {%endif%}
+                {%endfor%}
+                </div>
+                {%endwith%}
                 {%block content%}
                 {%endblock%}
             </div>
