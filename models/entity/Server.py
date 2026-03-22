@@ -21,3 +21,14 @@ class Server(db.Model):
         self.game = game
         self.host = host
         self.port = port
+    
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "status": self.status,
+            "public": self.public,
+            "game": self.game,
+            "host": self.host,
+            "port": self.port
+        }

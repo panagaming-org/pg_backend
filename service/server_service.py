@@ -1,0 +1,43 @@
+import json
+import models.dao.ServerDAO as server_dao
+import models.dao.ImageServerDAO as server_images_dao
+
+settings = {}
+with open("settings.json") as setting:
+    settings = json.load(setting)
+
+def get_json_servers():
+    result = []
+    all_servers = server_dao.get_all()     
+    for server in all_servers:
+        images = get_json_server_images(server.id)
+        data = {
+            "id": server.id,
+            "name": server.name,
+            "status": server.status,
+            "public": server.public,
+            "game": server.game,
+            "host": server.host,
+            "port": server.port,
+            "images": images
+        }
+        result.append(data)
+    return result
+
+def get_json_server_images(id_server):
+    images = server_images_dao.get_by_idserver(id_server)
+    result = []
+    for image in images:
+        url = generate_image_url(image.filename)
+        data = {
+            "id": image.id,
+            "url": url
+        }
+        result.append(data)
+    return result
+
+def generate_image_url(filename):
+    host = settings['flask']['host']
+    port = settings['flask']['port']
+    url = f"http://{host}:{port}/api/images/{filename}"
+    return url

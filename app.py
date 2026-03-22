@@ -50,7 +50,7 @@ app.app_context()
 
 socketio.init_app(app)
 
-from routes import auth_bp, skins_bp, console_bp, user_bp, server_bp, images_api
+from routes import *
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
 app.register_blueprint(skins_bp, url_prefix="/mc/images")
@@ -58,6 +58,7 @@ app.register_blueprint(console_bp, url_prefix="/mc/consoles")
 app.register_blueprint(user_bp, url_prefix="/users")
 app.register_blueprint(server_bp, url_prefix="/servers")
 app.register_blueprint(images_api, url_prefix="/api/images")
+app.register_blueprint(servers_api, url_prefix="/api/servers")
 
 # Ruta del index
 @app.route('/', methods=['GET'])
