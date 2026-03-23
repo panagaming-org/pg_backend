@@ -29,8 +29,8 @@
             <tr>
                 <td>{{server.name}}</td>
                 <td>
-                    <input type="hidden" value="{{server.id}}" id="server_id" />
-                    <select id="status_select" class="w-45 select select-success">
+                    <input type="hidden" value="{{server.id}}" id="server_id_{{server.id}}" />
+                    <select id="status_select_{{server.id}}" class="w-45 select select-success">
                         {%if server.status == "Offline"%}
                         <option value="Offline" selected>Desconectado</option>
                         <option value="Online">En línea</option>
@@ -56,7 +56,16 @@
                         <option value="Comingsoon" selected>Próximamente</option>
                         {%endif%}
                     </select>
-                    <script type="module" src="/static/scripts/server/status_event.js"></script>
+                    <script type="module">
+                        import {changeServerStatus} from "/static/scripts/server/sockets.js";
+
+                        var socket = io();
+                        var idServer = document.getElementById('server_id_{{server.id}}').value;
+                        var select = document.getElementById('status_select_{{server.id}}');
+                        select.addEventListener("change", (event) => {
+                            changeServerStatus(idServer, event.target.value);
+                        });
+                    </script>
                 </td>
                 <td>
                     <input type="hidden" id="server_id_{{server.id}}" value="{{server.id}}">
