@@ -6,9 +6,9 @@ settings = {}
 with open("settings.json") as setting:
     settings = json.load(setting)
 
-def get_json_servers():
+def get_public_json_servers():
     result = []
-    all_servers = server_dao.get_all()     
+    all_servers = server_dao.get_public_servers()     
     for server in all_servers:
         images = get_json_server_images(server.id)
         data = {

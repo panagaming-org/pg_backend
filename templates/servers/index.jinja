@@ -3,8 +3,6 @@
 {%block title%} Servidores {%endblock%}
 
 {%block content%}
-<script type="module" src="/static/scripts/server/visibility.js"></script>
-<script type="module" src="/static/scripts/server/status_event.js"></script>
 <div class="overflow-x-auto mt-10 rounded-box bg-base-100 shadow shadow-green-500">
     <table class="table">
         <!-- head -->
@@ -61,14 +59,24 @@
                     <script type="module" src="/static/scripts/server/status_event.js"></script>
                 </td>
                 <td>
-                    <input type="hidden" id="server_id" value="{{server.id}}">
+                    <input type="hidden" id="server_id_{{server.id}}" value="{{server.id}}">
                     {%if server.public%}
-                    <input type="checkbox" id="public_toggle" name="public" checked="checked"
+                    <input type="checkbox" id="public_toggle_{{server.id}}" name="public" checked="checked"
                         class="toggle toggle-success" />
                     {%else%}
-                    <input type="checkbox" id="public_toggle" name="public" class="toggle toggle-success" />
+                    <input type="checkbox" id="public_toggle_{{server.id}}" name="public" class="toggle toggle-success" />
                     {%endif%}
-                    <script type="module" src="/static/scripts/server/visibility.js"></script>
+                    <script type="module">
+                        var socket = io();
+
+                        import {changeVisibility} from "/static/scripts/server/sockets.js";
+                        var idServer = document.getElementById('server_id_{{server.id}}').value;
+                        var toggle = document.getElementById("public_toggle_{{server.id}}")
+
+                        toggle.addEventListener("change", (event) => {
+                            changeVisibility(idServer, event.target.checked);
+                        });
+                    </script>
                 </td>
                 <td>
                     <a type="button" href="{{url_for('server.images', id=server.id)}}"

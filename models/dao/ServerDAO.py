@@ -1,9 +1,14 @@
 from extensions import db
 from models.entity.Server import Server
 
-# Obtiene todos los servidores
+# Obtiene todos los servidores.
 def get_all():
     servers = Server.query.all()
+    return servers
+
+# Function that get public servers.
+def get_public_servers():
+    servers = db.session.query(Server).filter(Server.public == True)
     return servers
 
 # Funcion that returns a server by id

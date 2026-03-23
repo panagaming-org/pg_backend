@@ -11,6 +11,9 @@ def change_visibility(data):
 
     server = db.session.query(Server).filter(Server.id == id_server).first()
     server.public = public
+    print("Visibilidad cambiada!!!")
+    print("Id server: ", id_server)
+    print("Public: ", public)
     db.session.commit()
 
 # Evento para cambiar el estado del servidor.

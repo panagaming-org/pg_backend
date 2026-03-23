@@ -10,5 +10,5 @@ servers_api = Blueprint('servers_api', __name__)
 
 @servers_api.route('/')
 def servers():
-    response = server_service.get_json_servers()
+    response = server_service.get_public_json_servers()
     return jsonify(response)
