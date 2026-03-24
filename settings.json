@@ -8,7 +8,7 @@
     },
     "flask": {
         "ip": "localhost",
-        "port": 5001,
+        "port": 5000,
         "debug": true,
         "host": "0.0.0.0"
     }

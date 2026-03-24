@@ -1,17 +1,22 @@
-version: "3.9"
 services:
-  user_manager:
+  flask-backend:
     build: .
-    image: user_manager
+    container_name: minecraft-panel-api
+    restart: always
     ports:
-      - "5002:5002"
-    
+      - "5000:5000"
+    env_file:
+      - .env
     volumes:
-      - .:/usr/src/app
+      - .:/app
+      # Esto permite que si editas el código en tu PC, 
+      # el contenedor se actualice sin reconstruir (modo dev)
+    environment:
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
     networks:
-      mc-block-net:
-        ipv4_address: 172.90.0.30
+      - panagaming-network
 
 networks:
-  mc-block-net:
-    external: true
+  panagaming-network:
+    driver: bridge
