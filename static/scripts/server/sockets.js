@@ -1,4 +1,3 @@
-var socket = io();
 
 /**
  * Función que permite cambiar el estado de un servidor.
