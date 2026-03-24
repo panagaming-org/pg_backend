@@ -59,7 +59,6 @@
                     <script type="module">
                         import {changeServerStatus} from "/static/scripts/server/sockets.js";
 
-                        var socket = io();
                         var idServer = document.getElementById('server_id_{{server.id}}').value;
                         var select = document.getElementById('status_select_{{server.id}}');
                         select.addEventListener("change", (event) => {
@@ -76,8 +75,6 @@
                     <input type="checkbox" id="public_toggle_{{server.id}}" name="public" class="toggle toggle-success" />
                     {%endif%}
                     <script type="module">
-                        var socket = io();
-
                         import {changeVisibility} from "/static/scripts/server/sockets.js";
                         var idServer = document.getElementById('server_id_{{server.id}}').value;
                         var toggle = document.getElementById("public_toggle_{{server.id}}")
