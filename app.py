@@ -65,10 +65,7 @@ app.register_blueprint(servers_api, url_prefix="/api/servers")
 def index():
     if security.admin_user_exists():
         if 'id' in session:
-            return render_template(
-                '/main/index.jinja',
-                session=session
-            )        
+            return redirect(url_for('server.index'))   
         return redirect(url_for('auth.login'))
     return redirect(url_for('auth.start'))
 
