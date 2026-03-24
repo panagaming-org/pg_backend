@@ -1,0 +1,94 @@
+import os
+import sys
+import json
+from datetime import datetime
+from flask import request, Flask, render_template, redirect, session, sessions, url_for
+from werkzeug.utils import secure_filename
+import asyncio
+from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
+from extensions import db, socketio
+from models.entity.User import User
+import service.SecurityService as security
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
+from models.entity.Server import Server
+
+settings = {}
+with open("settings.json") as setting:
+    settings = json.load(setting)
+
+USER = os.getenv("USER")
+PASSWORD = os.getenv("PASSWORD")
+
+from sqlalchemy import create_engine
+# from sqlalchemy.pool import NullPool
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env
+load_dotenv()
+
+# Fetch variables
+SP_ID=settings['postgres']['id']
+SP_USER = settings['postgres']['user']
+SP_PASSWORD = os.getenv("sp_password")
+SP_HOST = settings['postgres']['host']
+SP_PORT = settings['postgres']['port']
+SP_DATABASE = settings['postgres']['database']
+
+session_key = os.getenv("session_key")
+
+# Construct the SQLAlchemy connection string
+DATABASE_URL = f'postgresql://postgres.{SP_ID}:{SP_PASSWORD}@{SP_HOST}:{SP_PORT}/{SP_DATABASE}'
+app = Flask(
+    __name__,
+    template_folder='templates',
+    static_folder='static'
+)
+app.secret_key = session_key
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+app.app_context()
+
+socketio.init_app(app)
+
+from routes import *
+
+app.register_blueprint(auth_bp, url_prefix="/auth")
+app.register_blueprint(skins_bp, url_prefix="/mc/images")
+app.register_blueprint(console_bp, url_prefix="/mc/consoles")
+app.register_blueprint(user_bp, url_prefix="/users")
+app.register_blueprint(server_bp, url_prefix="/servers")
+app.register_blueprint(images_api, url_prefix="/api/images")
+app.register_blueprint(servers_api, url_prefix="/api/servers")
+
+# Ruta del index
+@app.route('/', methods=['GET'])
+def index():
+    if security.admin_user_exists():
+        if 'id' in session:
+            return redirect(url_for('server.index'))   
+        return redirect(url_for('auth.login'))
+    return redirect(url_for('auth.start'))
+
+@app.route('/errors/403', methods=['GET'])
+def error_403():
+    return render_template('/errors/403.jinja')
+
+if __name__ == "__main__":
+    with app.app_context():
+        import events.server_events
+        import events.console_events
+        db.create_all()
+
+    socketio.run(
+        app,
+        host=settings['flask']['host'],
+        port=settings['flask']['port'],
+        debug=settings['flask']['debug'],
+        allow_unsafe_werkzeug=True
+    )

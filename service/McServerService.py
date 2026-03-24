@@ -8,7 +8,7 @@ import re
 
 sys.path.append("..")
 
-app_route = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'app'))
+app_route = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'index'))
 if app_route not in sys.path:
     sys.path.insert(0, app_route)
 

@@ -143,27 +143,27 @@
                         <div>
                             <label><strong>Juego</strong></label><br>
                             <select name="game" class="select select-success w-full">
-                                {%if server.game == "Minecraft"%}
+                                {%if server.game == "minecraft"%}
                                 <option disabled>Videojuego</option>
-                                <option value="Minecraft" selected>Minecraft</option>
+                                <option value="minecraft" selected>Minecraft</option>
                                 <option value="gmod">Garry's Mod</option>
                                 <option value="arkse">Ark: Survival Evolved</option>
                                 {%endif%}
                                 {%if server.game == "gmod"%}
                                 <option disabled>Videojuego</option>
-                                <option value="Minecraft">Minecraft</option>
+                                <option value="minecraft">Minecraft</option>
                                 <option value="gmod" selected>Garry's Mod</option>
                                 <option value="arkse">Ark: Survival Evolved</option>
                                 {%endif%}
                                 {%if server.game == "arkse"%}
                                 <option disabled>Videojuego</option>
-                                <option value="Minecraft">Minecraft</option>
+                                <option value="minecraft">Minecraft</option>
                                 <option value="gmod">Garry's Mod</option>
                                 <option value="arkse" selected>Ark: Survival Evolved</option>
                                 {%endif%}
                                 {%if server.game == 'None'%}
                                 <option disabled selected>Videojuego</option>
-                                <option value="Minecraft">Minecraft</option>
+                                <option value="minecraft">Minecraft</option>
                                 <option value="gmod">Garry's Mod</option>
                                 <option value="arkse">Ark: Survival Evolved</option>
                                 {%endif%}
