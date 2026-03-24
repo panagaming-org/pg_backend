@@ -29,7 +29,7 @@ def login():
                 
             return render_template('/auth/login.jinja')
             
-        flash("error", "Fallo en el inicio de sesión!")
+        flash("Fallo en el inicio de sesión!", "error")
         return render_template('/auth/login.jinja')
     
     return redirect(url_for('index'))

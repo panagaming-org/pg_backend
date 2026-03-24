@@ -32,15 +32,20 @@ def create_user():
         passwd = request.form['passwd']
         passwd_confirm = request.form['passwd_confirm']
 
-        if passwd == passwd_confirm:
-            passwd = security.encrypt_passwd(passwd)
-            user = User(username, passwd, 'User', False, False)
-            db.session.add(user)
-            db.session.commit()
-
+        if username == None or passwd == None or passwd_confirm == None:
+            flash("error", "Hay campos vacíos!")
             return redirect(url_for('users.index'))
+
+        if passwd != passwd_confirm:
+            flash("error", "Las contraseñas no coinciden!")
+            return redirect(url_for('users.index'))
+
+        passwd = security.encrypt_passwd(passwd)
+        user = User(username, passwd, 'User', False, False)
+        db.session.add(user)
+        db.session.commit()
         
-        flash("error", "Las contraseñas no coinciden!")
+        flash("success", "Nuevo usuario creado!")
         return redirect(url_for('users.index'))
     return redirect(url_for('index'))
 
@@ -84,13 +89,19 @@ def new_user_password(id):
         passwd = request.form.get('passwd')
         passwd_confirm = request.form.get('passwd_confirm')
 
-        if passwd == passwd_confirm:
-            user = db.session.query(User).filter(User.id == id).first()
-            passwd = security.encrypt_passwd(passwd)
+        if passwd == None or passwd_confirm == None:
+            flash("error", "Hay campos vacíos!")
+            return redirect(url_for('users.index'))
 
-            user.passwd = passwd
-            db.session.commit()
+        if passwd != passwd_confirm:
+            flash("error", "Las contraseñas no coinciden!")
+            return redirect(url_for('users.index'))
+        
+        user = db.session.query(User).filter(User.id == id).first()
+        passwd = security.encrypt_passwd(passwd)
+        user.passwd = passwd
+        db.session.commit()
 
-            return redirect(url_for('users.index'))    
+        flash("success", f"Contraseña del usuario {user.username} actualizado!")    
         return redirect(url_for('users.index'))
     return redirect(url_for('auth.login'))

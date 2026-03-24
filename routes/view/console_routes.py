@@ -39,11 +39,11 @@ def add_console():
         try:
             port = int(request.form.get('port'))
         except ValueError:
-            flash("error", "Hay fallos en los datos ingresados!")
+            flash("Hay fallos en los datos ingresados!", "error")
             return redirect(url_for('console.index'))
         
         if passwd != passwd2:
-            flash("error", "Las contraseñas no coinciden!")
+            flash("Las contraseñas no coinciden!", "error")
             return redirect(url_for('console.index'))
         
         passwd_hashed = security.encrypt_passwd(passwd)
@@ -53,7 +53,7 @@ def add_console():
             db.session.add(new_console)
             db.session.commit()
         except Exception as e:
-            flash("error", "Error al agregar la consola! Verifique que el nombre o IP no estén repetidos.")
+            flash("Error al agregar la consola! Verifique que el nombre o IP no estén repetidos.", "error")
             return redirect(url_for('console.index'))
         
         return redirect(url_for('console.index'))
@@ -71,7 +71,7 @@ def delete_console(id):
 
             return redirect(url_for('console.index'))
 
-        flash("error", "Consola no encontrada!")
+        flash("Consola no encontrada!", "error")
         return redirect(url_for('console.index'))
     return redirect(url_for('auth.login'))
 
@@ -90,9 +90,9 @@ def access_console(id):
                     session=session
                 )
             
-            flash("error", "Consola no encontrada!")
+            flash("Consola no encontrada!", "error")
             return redirect(url_for('console.index'))
     
-        flash("error", "Contraseña incorrecta!")
+        flash("Contraseña incorrecta!", "error")
         return redirect(url_for("console.index"))
     return redirect(url_for('auth.login'))

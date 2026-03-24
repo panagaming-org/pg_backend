@@ -32,7 +32,7 @@
         <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
             <nav class="navbar w-full bg-base-200 text-neutral-content shadow-md">
-                {%if session%}
+                {%if 'id' in session%}
                 <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-list" viewBox="0 0 16 16">
@@ -46,7 +46,7 @@
                         PanaGaming Panel
                     </span>
                 </div>
-                {%if session%}
+                {%if 'id' in session%}
                 <div class="flex-none">
                     <div class="dropdown dropdown-end">
                         {%if session['role'] == "Admin"%}
@@ -86,40 +86,32 @@
                 </div>
                 {%endif%}
             </nav>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div id="alert-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 w-full max-w-sm">
+                    {% for category, message in messages %}                        
+                        {% set bg_color = {
+                            'success': 'bg-green-100 border-green-500 text-green-800',
+                            'error': 'bg-red-100 border-red-500 text-red-800',
+                            'warning': 'bg-yellow-100 border-yellow-500 text-yellow-800',
+                            'info': 'bg-blue-100 border-blue-500 text-blue-800'
+                        }.get(category, 'bg-gray-100 border-gray-500 text-gray-800') %}
+
+                        <div class="{{ bg_color }} border-l-4 p-4 shadow-md rounded flex justify-between items-center animate-bounce-short" role="alert">
+                        <p class="font-medium">{{ message }}</p>
+                        <button onclick="this.parentElement.remove()" class="ml-4 text-xl font-bold hover:opacity-70">&times;</button>
+                        </div>
+                    {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
             <div class="p-6">
-                {%with messages = get_flashed_messages(with_categories=true)%}
-                <div id="alert-div" class="text-center">
-                <br><br>
-                {%for category, message in messages%}
-                    {%if category == 'error'%}
-                    <div id="error-alert" role="alert" class="alert alert-error alert-soft m-2">
-                        <span id="alert-message">{{message}}</span>
-                    </div>
-                    {%endif%}
-                    {%if category == "warning"%}
-                    <div id="warning-alert" role="alert" class="alert alert-warning alert-soft m-2">
-                        <span id="alert-message">{{message}}</span>
-                    </div>
-                    {%endif%}
-                    {%if category == "success"%}
-                    <div id="success-alert" role="alert" class="alert alert-success alert-soft m-2">
-                        <span id="alert-message">{{message}}</span>
-                    </div>
-                    {%endif%}
-                    {%if category == "info"%}
-                    <div id="info-alert" role="alert" class="alert alert-info alert-soft m-2">
-                        <span id="alert-message">{{message}}</span>
-                    </div>
-                    {%endif%}
-                {%endfor%}
-                </div>
-                {%endwith%}
                 {%block content%}
                 {%endblock%}
             </div>
         </div>
 
-        {%if session%}
+        {%if 'id' in session%}
         <!-- Sidebar -->
         <div class="drawer-side is-drawer-close:overflow-visible">
             <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay">

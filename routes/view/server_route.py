@@ -42,11 +42,11 @@ def add_server():
         try:
             port = int(request.form.get("port"))
         except:
-            flash("error", "El puerto debe ser numérico!")
+            flash("El puerto debe ser numérico.", "error")
             return redirect(url_for('server.index'))
 
         if name == None or game == None:
-            flash("error", "El campo del nombre y del videojuego no deben estar vacíos.")
+            flash("El campo del nombre y del videojuego no deben estar vacíos.", "error")
             return redirect(url_for('server.index'))
         
         new_server = Server(
@@ -61,7 +61,7 @@ def add_server():
         db.session.add(new_server)
         db.session.commit()
 
-        flash("success", "Nuevo servidor agregado!")
+        flash("Nuevo servidor agregado!", "success")
         return redirect(url_for('server.index'))
 
     return redirect(url_for('auth.login'))
@@ -78,11 +78,11 @@ def edit_server(id):
         try:
             port = int(request.form.get("port"))
         except:
-            flash("error", "El puerto debe ser numérico!")
+            flash("error", "El puerto debe ser numérico.")
             return redirect(url_for('server.index'))
 
         if name == None or game == None:
-            flash("error", "El campo del nombre y del videojuego no deben estar vacíos.")
+            flash("El campo del nombre y del videojuego no deben estar vacíos.", "error")
             return redirect(url_for('server.index'))
         
         server = db.session.query(Server).filter(Server.id == id).first()
@@ -93,7 +93,7 @@ def edit_server(id):
         server.port = port
         db.session.commit()
 
-        flash("success", "Servidor actualizado!")
+        flash("Servidor actualizado.", "success")
         return redirect(url_for('server.index'))
 
     return redirect(url_for('auth.login'))
@@ -151,9 +151,9 @@ def add_image():
                 db.session.add(image_server)
                 db.session.commit()
             else:
-                flash("error", "No has introducido la imagen!")
+                flash("No has introducido la imagen.", "error")
         else:
-            flash("error", "Un servidor no puede tener más de 5 imágenes!")
+            flash("Un servidor no puede tener más de 5 imágenes.", "error")
 
         return redirect(url_for('server.images', id=id_server))
     return redirect(url_for('auth.login'))
@@ -165,6 +165,6 @@ def delete_image():
         id_image = int(request.form.get('id_image'))
 
         image_server_dao.delete(id_image)
-        flash('success', 'La imagen se ha eliminado correctamente!!')
+        flash('La imagen se ha eliminado correctamente.', "success")
         return redirect(url_for('server.images', id=id_server))
     return redirect(url_for('auth.login'))
