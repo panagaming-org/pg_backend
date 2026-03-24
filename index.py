@@ -13,6 +13,7 @@ import service.SecurityService as security
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from models.entity.Server import Server
+import psycopg2
 
 settings = {}
 with open("settings.json") as setting:
