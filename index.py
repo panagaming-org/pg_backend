@@ -6,8 +6,7 @@ from flask import request, Flask, render_template, redirect, session, sessions, 
 from werkzeug.utils import secure_filename
 import asyncio
 from flask_sqlalchemy import SQLAlchemy
-from flask_socketio import SocketIO
-from extensions import db, socketio
+from extensions import db
 from models.entity.User import User
 import service.SecurityService as security
 from sqlalchemy import create_engine
@@ -55,8 +54,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 app.app_context()
 
-socketio.init_app(app)
-
 from routes import *
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
@@ -82,14 +79,10 @@ def error_403():
 
 if __name__ == "__main__":
     with app.app_context():
-        import events.server_events
-        import events.console_events
         db.create_all()
 
-    socketio.run(
-        app,
+    app.run(
         host=settings['flask']['host'],
         port=settings['flask']['port'],
-        debug=settings['flask']['debug'],
-        allow_unsafe_werkzeug=True
+        debug=settings['flask']['debug']
     )
