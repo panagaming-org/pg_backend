@@ -7,7 +7,7 @@
         "database": "postgres"
     },
     "flask": {
-        "ip": "localhost",
+        "ip": "pg-backend-navy.vercel.app",
         "port": 5000,
         "debug": true,
         "host": "0.0.0.0"
