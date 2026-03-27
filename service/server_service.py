@@ -1,10 +1,9 @@
 import json
 import models.dao.ServerDAO as server_dao
 import models.dao.ImageServerDAO as server_images_dao
+from extensions import load_settings
 
-settings = {}
-with open("settings.json") as setting:
-    settings = json.load(setting)
+settings = load_settings()
 
 def get_public_json_servers():
     result = []
