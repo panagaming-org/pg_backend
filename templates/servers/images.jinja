@@ -28,12 +28,22 @@
             {%for image in images%}
             <tr>
                 <th>
-                    <img width="100" class="rounded" src="http://{{ host }}:{{ port }}/api/images/{{ image.filename }}"
+                    <img width="100" class="rounded" src="/static/uploads/{{image.filename}}"
                         alt="{{ image.name }}" />
                 </th>
                 <td>
-                    <a href="http://{{ host }}:{{ port }}/api/images/{{ image.filename }}"
-                        class="link link-success">http://{{ host }}:{{ port }}/api/images/{{ image.filename }}</a>
+                    {%if protocol == 'http'%}
+                    <a href="{{url_for('images.image', filename=image.filename)}}"
+                        class="link link-success">
+                        http://{{host}}:{{port}}{{url_for('images.image', filename=image.filename)}}
+                    </a>
+                    {%else%}
+                    <a href="{{url_for('images.image', filename=image.filename)}}"
+                        class="link link-success">
+                            https://{{host}}:{{port}}{{url_for('images.image', filename=image.filename)}}
+                    </a>
+                    {%endif%}
+
                 </td>
                 <td>
                     <form method="post" action="{{url_for('server.delete_image')}}">

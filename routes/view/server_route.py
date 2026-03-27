@@ -1,7 +1,7 @@
 import os
 import sys
 from flask import request, Flask, flash, render_template, current_app, redirect, session, sessions, url_for, Blueprint, jsonify, send_from_directory 
-from extensions import db
+from extensions import db, load_settings
 import service.StaticsService as statics
 from models.entity.Server import Server
 from models.entity.ServerImage import ServerImage
@@ -11,9 +11,7 @@ import json
 
 server_bp = Blueprint('server', __name__)
 
-settings = {}
-with open("settings.json") as setting:
-    settings = json.load(setting)
+settings = load_settings()
 
 # Pagina principal.
 @server_bp.route('/', methods=['GET'])
@@ -111,26 +109,26 @@ def delete_server(id):
         return redirect(url_for('server.index'))
     return redirect(url_for('auth.login'))
 
-
 @server_bp.route('/images/<int:id>')
 def images(id):
     if 'id' in session:
         count_images = db.session.query(ServerImage).filter(ServerImage.id_server == id).count()
         images = db.session.query(ServerImage).filter(ServerImage.id_server == id)
         
-        host = settings['flask']['ip']
-        port = settings['flask']['port']
+        host = settings['ip']
+        port = settings['port']
+        protocol = settings['protocol']
         
         return render_template(
             '/servers/images.jinja',
             images=images,
             host=host,
             port=port,
+            protocol=protocol,
             id_server=id,
             count_images=count_images,
             session=session
         )
-
     return redirect(url_for('auth.login'))
 
 @server_bp.route('/images/add', methods=['POST'])

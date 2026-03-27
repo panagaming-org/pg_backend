@@ -6,7 +6,7 @@ from flask import request, Flask, render_template, redirect, session, sessions, 
 from werkzeug.utils import secure_filename
 import asyncio
 from flask_sqlalchemy import SQLAlchemy
-from extensions import db
+from extensions import db, load_settings, load_db_settings
 from models.entity.User import User
 import service.SecurityService as security
 from sqlalchemy import create_engine
@@ -14,9 +14,8 @@ from dotenv import load_dotenv
 from models.entity.Server import Server
 import psycopg2
 
-settings = {}
-with open("settings.json") as setting:
-    settings = json.load(setting)
+settings = load_settings()
+db_settings = load_db_settings()
 
 USER = os.getenv("USER")
 PASSWORD = os.getenv("PASSWORD")
@@ -30,12 +29,12 @@ import os
 load_dotenv()
 
 # Fetch variables
-SP_ID=settings['postgres']['id']
-SP_USER = settings['postgres']['user']
+SP_ID=db_settings['id']
+SP_USER = db_settings['user']
 SP_PASSWORD = os.getenv("sp_password")
-SP_HOST = settings['postgres']['host']
-SP_PORT = settings['postgres']['port']
-SP_DATABASE = settings['postgres']['database']
+SP_HOST = db_settings['host']
+SP_PORT = db_settings['port']
+SP_DATABASE = db_settings['database']
 
 session_key = os.getenv("session_key")
 
@@ -82,7 +81,7 @@ if __name__ == "__main__":
         db.create_all()
 
     app.run(
-        host=settings['flask']['host'],
-        port=settings['flask']['port'],
-        debug=settings['flask']['debug']
+        host=settings['host'],
+        port=settings['port'],
+        debug=settings['debug']
     )

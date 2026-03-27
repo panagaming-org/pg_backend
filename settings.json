@@ -7,9 +7,20 @@
         "database": "postgres"
     },
     "flask": {
-        "ip": "pg-backend-navy.vercel.app",
-        "port": 5000,
-        "debug": true,
-        "host": "0.0.0.0"
+        "debug": false,
+        "development": {
+            "protocol": "http",
+            "ip": "localhost",
+            "port": 5000,
+            "host": "0.0.0.0",
+            "debug": false
+        },
+        "production": {
+            "protocol": "https",
+            "ip": "pg-backend-navy.vercel.app",
+            "port": false,
+            "host": "0.0.0.0",
+            "debug": true
+        }
     }
 }

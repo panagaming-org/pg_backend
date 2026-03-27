@@ -37,7 +37,19 @@ def get_json_server_images(id_server):
     return result
 
 def generate_image_url(filename):
-    host = settings['flask']['host']
-    port = settings['flask']['port']
-    url = f"http://{host}:{port}/api/images/{filename}"
+    host = settings['ip']
+    port = settings['port']
+    protocol = settings['protocol']
+    url = ""
+
+    if protocol == 'http':
+        if port:
+            url = f"http://{host}:{port}/api/images/{filename}"
+        else:
+            url = f"http://{host}/api/images/{filename}"
+    else:
+        if port:
+            url = f"https://{host}:{port}/api/images/{filename}"
+        else:
+            url = f"https://{host}/api/images/{filename}"
     return url

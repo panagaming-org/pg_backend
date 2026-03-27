@@ -39,7 +39,6 @@ const changeServerStatus = async (idServer, status) => {
     }
 }
 
-
 export {
     changeVisibility,
     changeServerStatus

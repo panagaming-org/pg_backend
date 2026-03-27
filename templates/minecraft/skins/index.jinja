@@ -42,8 +42,15 @@
                 <td>
                 </td>
                 <td>
+                
+                    {%if port%}
                     <a
-                        href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}:{{port}}/api/images/{{image.image}}</a>
+                        href="{{url_for('images.image', filename=image.image)}}">
+                            http://{{ip}}:{{port}}/api/images/{{image.image}}</a>
+                    {%else%}
+                    <a
+                        href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}/api/images/{{image.image}}</a>
+                    {%endif%}
                 </td>
                 <td>
                     <a type="button" href="{{url_for('skins.delete', id=image.id)}}"

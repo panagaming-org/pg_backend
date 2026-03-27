@@ -1,16 +1,14 @@
 import os
 import sys
 from flask import request, Flask, render_template, current_app, redirect, session, sessions, url_for, Blueprint, jsonify, send_from_directory 
-from extensions import db
+from extensions import db, load_settings
 import service.StaticsService as statics
 from models.entity.Skin import Skin
 import json
 
 skins_bp = Blueprint('skins', __name__)
 
-settings = {}
-with open("settings.json") as setting:
-    settings = json.load(setting)
+settings = load_settings()
 
 # Ruta principal de la pagina de gestor de skins de minecraft
 @skins_bp.route('/', methods=['GET'])
@@ -19,14 +17,16 @@ async def index():
         if session['pig'] or session['role'] == 'Admin':
             page = request.args.get("page", 1, type=int)
             images = db.session.query(Skin).paginate(page=page, per_page=5)
-            ip = settings['flask']['ip']
-            port = settings['flask']['port']
+            ip = settings['ip']
+            port = settings['port']
+            protocol = settings['protocol']
         
             return render_template(
                 '/minecraft/skins/index.jinja',
                 images=images,
                 ip=ip,
                 port=port,
+                protocol=protocol,
                 session=session
             )
 
@@ -80,8 +80,8 @@ async def filtered():
                 page = request.args.get("page", 1, type=int)
                 images = db.session.query(Skin).filter(Skin.name.like(f"%{text}%")).paginate(page=page, per_page=5)
 
-                ip = settings['flask']['ip']
-                port = settings['flask']['port']
+                ip = settings['ip']
+                port = settings['port']
         
                 return render_template(
                     '/minecraft/skins/index.jinja',
