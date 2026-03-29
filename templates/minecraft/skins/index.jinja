@@ -48,13 +48,23 @@
                 <td>
                 </td>
                 <td>
-
-                    {%if port%}
+                    {%if protocol == 'http'%}
+                    {%if port == False%}
                     <a href="{{url_for('images.image', filename=image.image)}}">
                         http://{{ip}}:{{port}}/api/images/{{image.image}}</a>
                     {%else%}
                     <a
                         href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}/api/images/{{image.image}}</a>
+                    {%endif%}
+                    {%endif%}
+                    {%if protocol == 'https'%}
+                    {%if port == False%}
+                    <a href="{{url_for('images.image', filename=image.image)}}">
+                        http://{{ip}}:{{port}}/api/images/{{image.image}}</a>
+                    {%else%}
+                    <a
+                        href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}/api/images/{{image.image}}</a>
+                    {%endif%}
                     {%endif%}
                 </td>
                 <td>

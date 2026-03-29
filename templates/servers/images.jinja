@@ -33,15 +33,29 @@
                 </th>
                 <td>
                     {%if protocol == 'http'%}
+                    {%if port == False%}
+                    <a href="{{url_for('images.image', filename=image.filename)}}"
+                        class="link link-success">
+                        http://{{host}}{{url_for('images.image', filename=image.filename)}}
+                    </a>
+                    {%else%}
                     <a href="{{url_for('images.image', filename=image.filename)}}"
                         class="link link-success">
                         http://{{host}}:{{port}}{{url_for('images.image', filename=image.filename)}}
+                    </a>
+                    {%endif%}
+                    {%else%}
+                    {%if port == False%}
+                    <a href="{{url_for('images.image', filename=image.filename)}}"
+                        class="link link-success">
+                            https://{{host}}{{url_for('images.image', filename=image.filename)}}
                     </a>
                     {%else%}
                     <a href="{{url_for('images.image', filename=image.filename)}}"
                         class="link link-success">
                             https://{{host}}:{{port}}{{url_for('images.image', filename=image.filename)}}
                     </a>
+                    {%endif%}
                     {%endif%}
 
                 </td>
