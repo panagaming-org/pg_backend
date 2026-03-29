@@ -51,7 +51,7 @@ def create_user():
 
 # Ruta para borrar un usuario
 @user_bp.route('/delete/<int:id>', methods=['GET'])
-async def delete_user(id):
+def delete_user(id):
     if 'id' in session and session['role'] == 'Admin':
         user = db.session.query(User).filter(User.id == id).first()
         if user.username == 'Administrator':
@@ -90,11 +90,11 @@ def new_user_password(id):
         passwd_confirm = request.form.get('passwd_confirm')
 
         if passwd == None or passwd_confirm == None:
-            flash("error", "Hay campos vacíos!")
+            flash("Hay campos vacíos!", "error")
             return redirect(url_for('users.index'))
 
         if passwd != passwd_confirm:
-            flash("error", "Las contraseñas no coinciden!")
+            flash("Las contraseñas no coinciden!", "error")
             return redirect(url_for('users.index'))
         
         user = db.session.query(User).filter(User.id == id).first()

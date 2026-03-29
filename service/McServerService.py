@@ -26,14 +26,14 @@ def execute_mc_command(command, ip, port, passwd, result_queue):
         result_queue.put(response)
 
 # Funcion que verifica la conexion con el rcon de un servidor de minecraft.
-async def test_connection(ip, port) -> bool:
+def test_connection(ip, port) -> bool:
     try:
-        reader, writer = await asyncio.wait_for(
+        reader, writer = asyncio.wait_for(
             asyncio.open_connection(ip, port),
             timeout=2
         )
         writer.close()
-        await writer.wait_closed()
+        writer.wait_closed()
         return True
     except:
         return False

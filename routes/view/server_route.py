@@ -76,7 +76,7 @@ def edit_server(id):
         try:
             port = int(request.form.get("port"))
         except:
-            flash("error", "El puerto debe ser numérico.")
+            flash("El puerto debe ser numérico.", "error")
             return redirect(url_for('server.index'))
 
         if name == None or game == None:

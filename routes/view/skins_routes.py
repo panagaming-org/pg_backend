@@ -12,7 +12,7 @@ settings = load_settings()
 
 # Ruta principal de la pagina de gestor de skins de minecraft
 @skins_bp.route('/', methods=['GET'])
-async def index():
+def index():
     if 'id' in session:
         if session['pig'] or session['role'] == 'Admin':
             page = request.args.get("page", 1, type=int)
@@ -35,7 +35,7 @@ async def index():
 
 # Sube imagen creando el objeto que lo representa
 @skins_bp.route('/upload', methods=['POST'])
-async def upload():
+def upload():
     if 'id' in session:
         if session['pig'] or session['role'] == 'Admin':
             image_name = request.form['image_name']
@@ -48,13 +48,13 @@ async def upload():
                 db.session.add(image)
                 db.session.commit()
         
-            return redirect(url_for('pannel.index'))
+            return redirect(url_for('skins.index'))
         return redirect(url_for('error_403'))
     return redirect(url_for('index'))
 
 # Permite borrar las Imagenes.
 @skins_bp.route('/delete/<int:id>', methods=['GET'])
-async def delete(id):
+def delete(id):
     if 'id' in session:
         if session['pig'] or session['role'] == 'Admin':
             image = db.session.query(Skin).filter(Skin.id == id).first()
@@ -65,13 +65,13 @@ async def delete(id):
             db.session.delete(image)
             db.session.commit()
 
-            return redirect(url_for('pannel.index'))
+            return redirect(url_for('skins.index'))
         return redirect(url_for('error_403'))
     return redirect(url_for('auth.login'))
 
 # Panel filtrado por caracteres
 @skins_bp.route('/filtered', methods=['GET', 'POST'])
-async def filtered():
+def filtered():
     if 'id' in session:
         if session['pig'] or session['role'] == 'Admin':
             text = request.form['text']

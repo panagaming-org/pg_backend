@@ -13,14 +13,14 @@
             "ip": "localhost",
             "port": 5000,
             "host": "0.0.0.0",
-            "debug": false
+            "debug": true
         },
         "production": {
             "protocol": "https",
             "ip": "pg-backend-navy.vercel.app",
             "port": false,
             "host": "0.0.0.0",
-            "debug": true
+            "debug": false
         }
     }
 }
