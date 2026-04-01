@@ -13,6 +13,7 @@ def get_public_json_servers():
         data = {
             "id": server.id,
             "name": server.name,
+            "description": server.description,
             "status": server.status,
             "public": server.public,
             "game": server.game,
