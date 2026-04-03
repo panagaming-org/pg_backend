@@ -13,6 +13,8 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from models.entity.Server import Server
 import psycopg2
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 settings = load_settings()
 db_settings = load_db_settings()
@@ -49,6 +51,8 @@ app.secret_key = session_key
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+CORS(app, resources={r"/api/*": {"origins": "https://panagaming-org.github.io"}})
 
 db.init_app(app)
 app.app_context()
