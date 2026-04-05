@@ -1,6 +1,6 @@
 {%extends 'base.jinja'%}
 
-{%block title%}Panel{%endblock%}
+{%block title%}Skins{%endblock%}
 
 {%block content%}
 <br><br>
@@ -40,7 +40,7 @@
             {%for image in images%}
             <tr>
                 <th>
-                    <img width="70" src="/static/uploads/{{image.image}}">
+                    <img width="70" src="{{image.url}}" alt="{{image.name}}" />
                 </th>
                 <td>
                     <span>{{image.name}}</span>
@@ -48,24 +48,7 @@
                 <td>
                 </td>
                 <td>
-                    {%if protocol == 'http'%}
-                    {%if port == False%}
-                    <a href="{{url_for('images.image', filename=image.image)}}">
-                        http://{{ip}}:{{port}}/api/images/{{image.image}}</a>
-                    {%else%}
-                    <a
-                        href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}/api/images/{{image.image}}</a>
-                    {%endif%}
-                    {%endif%}
-                    {%if protocol == 'https'%}
-                    {%if port == False%}
-                    <a href="{{url_for('images.image', filename=image.image)}}">
-                        http://{{ip}}:{{port}}/api/images/{{image.image}}</a>
-                    {%else%}
-                    <a
-                        href="{{url_for('images.image', filename=image.image)}}">http://{{ip}}/api/images/{{image.image}}</a>
-                    {%endif%}
-                    {%endif%}
+                    <a href="{{server.url}}" class="link link-success">{{server.url}}</a>
                 </td>
                 <td>
                     <a type="button" href="{{url_for('skins.delete', id=image.id)}}"

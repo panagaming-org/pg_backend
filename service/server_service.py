@@ -28,10 +28,9 @@ def get_json_server_images(id_server):
     images = server_images_dao.get_by_idserver(id_server)
     result = []
     for image in images:
-        url = generate_image_url(image.filename)
         data = {
             "id": image.id,
-            "url": url
+            "url": image.url
         }
         result.append(data)
     return result

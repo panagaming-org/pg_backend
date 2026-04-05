@@ -43,8 +43,9 @@ def upload():
             image_file = request.files['image']
 
             if image_file:
-                image_filename = statics.upload_image(image_file)
-                image = Skin(image_name, image_filename, int(session['id']))
+                url = statics.upload_image_blob(image_file)
+                image_filename = image_file.filename
+                image = Skin(image_name, image_filename, url, int(session['id']))
                 db.session.add(image)
                 db.session.commit()
         

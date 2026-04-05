@@ -144,8 +144,9 @@ def add_image():
 
         if count_images < 5:
             if image_file:
-                image_filename = statics.upload_image(image_file)
-                image_server = ServerImage(name, image_filename, id_server)
+                url = statics.upload_image_blob(image_file)
+                image_filename = image_file.filename
+                image_server = ServerImage(name, image_filename, url, id_server)
                 db.session.add(image_server)
                 db.session.commit()
             else:
