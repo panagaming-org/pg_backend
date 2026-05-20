@@ -86,23 +86,25 @@
                 {%endif%}
             </nav>
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div id="alert-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 w-full max-w-sm">
-                    {% for category, message in messages %}                        
-                        {% set bg_color = {
-                            'success': 'bg-green-100 border-green-500 text-green-800',
-                            'error': 'bg-red-100 border-red-500 text-red-800',
-                            'warning': 'bg-yellow-100 border-yellow-500 text-yellow-800',
-                            'info': 'bg-blue-100 border-blue-500 text-blue-800'
-                        }.get(category, 'bg-gray-100 border-gray-500 text-gray-800') %}
+            {% if messages %}
+            <div id="alert-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3 w-full max-w-sm">
+                {% for category, message in messages %}
+                {% set bg_color = {
+                'success': 'bg-green-100 border-green-500 text-green-800',
+                'error': 'bg-red-100 border-red-500 text-red-800',
+                'warning': 'bg-yellow-100 border-yellow-500 text-yellow-800',
+                'info': 'bg-blue-100 border-blue-500 text-blue-800'
+                }.get(category, 'bg-gray-100 border-gray-500 text-gray-800') %}
 
-                        <div class="{{ bg_color }} border-l-4 p-4 shadow-md rounded flex justify-between items-center animate-bounce-short" role="alert">
-                        <p class="font-medium">{{ message }}</p>
-                        <button onclick="this.parentElement.remove()" class="ml-4 text-xl font-bold hover:opacity-70">&times;</button>
-                        </div>
-                    {% endfor %}
-                    </div>
-                {% endif %}
+                <div class="{{ bg_color }} border-l-4 p-4 shadow-md rounded flex justify-between items-center animate-bounce-short"
+                    role="alert">
+                    <p class="font-medium">{{ message }}</p>
+                    <button onclick="this.parentElement.remove()"
+                        class="ml-4 text-xl font-bold hover:opacity-70">&times;</button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endwith %}
             <div class="p-6">
                 {%block content%}
@@ -187,10 +189,51 @@
                             <span>Usuarios</span>
                         </a>
                     </li>
+                    <ul class="bg-base-200 rounded-box
+                           is-drawer-close:tooltip
+                           is-drawer-close:tooltip-right">
+                        <li>
+                            <details close>
+                                <summary>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-shield-fill" viewBox="0 0 16 16">
+                                        <path
+                                            d="M5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56" />
+                                    </svg>
+                                    <span>Seguridad</span>
+                                </summary>
+                                <ul>
+                                    <li>
+                                        <a href="#" class="flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-exclamation-triangle-fill"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+                                            </svg>
+                                            <span>Alertas</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="flex items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-file-earmark-medical-fill"
+                                                viewBox="0 0 16 16">
+                                                <path
+                                                    d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1m-3 2v.634l.549-.317a.5.5 0 1 1 .5.866L7 7l.549.317a.5.5 0 1 1-.5.866L6.5 7.866V8.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L5 7l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V5.5a.5.5 0 1 1 1 0m-2 4.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1m0 2h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1" />
+                                            </svg>
+                                            <span>Infromes</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </details>
+                        </li>
+                    </ul>
                 </ul>
             </div>
         </div>
         {%endif%}
     </div>
 </body>
+
 </html>
