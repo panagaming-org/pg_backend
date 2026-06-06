@@ -19,9 +19,6 @@ from flask_cors import CORS
 settings = load_settings()
 db_settings = load_db_settings()
 
-USER = os.getenv("USER")
-PASSWORD = os.getenv("PASSWORD")
-
 from sqlalchemy import create_engine
 # from sqlalchemy.pool import NullPool
 from dotenv import load_dotenv
