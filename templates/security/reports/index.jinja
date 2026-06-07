@@ -2,6 +2,84 @@
 
 {%block title%} Informes {%endblock%}
 
-{%block content%} 
+{%block content%}
+
+<div class="overflow-x-auto mt-10 rounded-box  border-base-content/5 bg-base-100 mx-auto shadow shadow-green-500">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID Usuario</th>
+                <th>Lugar</th>
+                <th>Sanción</th>
+                <th>Fecha</th>
+                <th>
+                    <button class="btn btn-success btn-sm rounded-full" onclick="add_report_modal.showModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        <span>Añadir</span>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for report in reports%}
+            <tr>
+                <td>{{report.target_user_id}}</td>
+                <td>{{report.target_platform}}</td>
+                <td>{{report.action_type}}</td>
+                <td>{{report.created_at}}</td>
+
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+<dialog id="add_report_modal" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl shadow shadow-green-500">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <form method="post">
+            <h3 class="text-lg font-bold">Nuevo Informe</h3>
+            <br>
+            <div class="flex flex-row gap-4 w-full">
+                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+                    <label class="label">Acción</label>
+                    <input type="text" class="input input-success w-full" name="action" />
+                    <br><br>
+                    <label class="label">Plataforma</label>
+                    <select class="select select-success w-full" name="platform">
+                        <option selected disabled>Plataforma</option>
+                        <option value="discord">Discord</option>
+                        <option value="minecraft">Minecraft Servers</option>
+                        <option value="pg-alicante">Asociación PanaGaming Alicante</option>
+                    </select>
+                    <br>
+                    <label class="label">Id Usuario</label>
+                    <input type="text" name="user_id" class="input input-success w-full"/>
+                </fieldset>
+
+                <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+                    <label class="label">Activado</label>
+                    <input type="text" class="input input-success w-full" />
+                    <br><br>
+                    <label class="label">Tiempo de Expiración</label>
+                    <input type="date" class="input input-success w-full" />
+                </fieldset>
+            </div>
+            <br>
+            <div class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+                <label class="label">Razon</label>
+                <textarea class="textarea textarea-success h-80 w-full"></textarea>
+            </div>
+            <br>
+            <button class="btn btn-block btn-success rounded-full">Crear Reporte</button>
+        </form>
+    </div>
+</dialog>
 
 {%endblock%}

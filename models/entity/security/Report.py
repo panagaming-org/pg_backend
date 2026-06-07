@@ -1,4 +1,8 @@
+import datetime
+
 from extensions import db
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID
+from sqlalchemy import func
 
 class Report(db.Model):
     __tablename__ = 'reports'

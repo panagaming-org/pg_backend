@@ -5,7 +5,7 @@ from extensions import db, load_settings
 import json
 import models.dao.security.report_dao as report_dao
 
-reports_bp = Blueprint('/security/reports', __name__)
+reports_bp = Blueprint('report', __name__)
 
 @reports_bp.route('/')
 def index():
