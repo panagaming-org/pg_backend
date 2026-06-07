@@ -9,11 +9,11 @@ def get_paged(page, per_page):
     reports = db.session.query(Report).paginate(page=page, per_page=per_page)
     return reports
     
-def add_report(action_type, target_platform, tarjet_user_id, reason, evidence_urls, is_active=False, created_at=None, expires_at=None, revoked_at=None, revoked_by=None, revocation_reason=None):
+def add_report(action_type, target_platform, target_user_id, reason, evidence_urls, is_active=False, created_at=None, expires_at=None, revoked_at=None, revoked_by=None, revocation_reason=None):
     new_report = Report(
         action_type=action_type,
         target_platform=target_platform,
-        tarjet_user_id=tarjet_user_id,
+        target_user_id=target_user_id,
         reason=reason,
         evidence_urls=evidence_urls,
         is_active=is_active,
@@ -26,12 +26,12 @@ def add_report(action_type, target_platform, tarjet_user_id, reason, evidence_ur
     db.session.add(new_report)
     db.session.commit()
 
-def update_report(id_report, action_type, target_platform, tarjet_user_id, reason, evidence_urls, is_active, created_at, expires_at, revoked_at, revoked_by, revocation_reason):
+def update_report(id_report, action_type, target_platform, target_user_id, reason, evidence_urls, is_active, created_at, expires_at, revoked_at, revoked_by, revocation_reason):
     report = get_by_id(id_report)
     
     report.action_type = action_type
     report.target_platform = target_platform
-    report.tarjet_user_id = tarjet_user_id
+    report.target_user_id = target_user_id
     report.reason = reason
     report.evidence_urls = evidence_urls
     report.is_active = is_active
