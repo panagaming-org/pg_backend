@@ -1,0 +1,52 @@
+{%extends 'base.jinja'%}
+
+{%block title%} Reporte {{report.id}} {%endblock%}
+
+{%block content%}
+<div>
+    <div class="flex flex-row gap-4 w-full">
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+            <label class="label">Acción</label>
+            <input type="text" class="input input-success w-full" name="action" readonly value="{{report.action_type}}" />
+            <br>
+            <label class="label">Plataforma</label>
+            {%if report.target_platform == 'discord'%}
+            <input type="text" class="input input-success w-full" readonly value="Discord" />
+            {%endif%}
+            {%if report.target_platform == 'minecraft'%}
+            <input type="text" class="input input-success w-full" readonly value="Minecraft" />
+            {%endif%}
+            {%if report.target_platform == 'pg-alicante'%}
+            <input type="text" class="input input-success w-full" readonly value="Asociación PanaGaming Alicante" />
+            {%endif%}
+            <br>
+            <label class="label">Id Usuario</label>
+            <input type="text" name="user_id" class="input input-success w-full" readonly value="{{report.target_user_id}}" />
+        </fieldset>
+
+        <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+            <label class="label">Activado</label>
+            {%if report.is_active%}
+            <input type="checkbox" checked="checked" class="toggle toggle-success" readonly />
+            {%else%}
+            <input type="checkbox" class="toggle toggle-success" readonly />
+            {%endif%}
+            <br>
+            <label class="label">Tiempo de Expiración</label>
+            {%if report.expires_at%}
+            <input type="date" name="expires_at" class="input input-success w-full" readonly value="{{report.expires_at}}" />
+            {%endif%}
+            {%if not report.expires_at%}
+            <input type="date" name="expires_at" class="input input-success w-full" readonly />
+            {%endif%}
+        </fieldset>
+    </div>
+    <br>
+    <div class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+        <label class="label">Razon</label>
+        <textarea class="textarea textarea-success h-80 w-full" name="reason">
+            {{report.reason}}
+        </textarea>
+    </div>
+</div>
+{%endblock%}

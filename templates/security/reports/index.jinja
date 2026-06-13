@@ -32,7 +32,7 @@
                 <td>{{report.action_type}}</td>
                 <td>{{report.created_at}}</td>
                 <td>
-                    <a href="#" class="btn btn-circle btn-sm">
+                    <a href="{{url_for('report.report_details', report_id=report.id)}}" class="btn btn-circle btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-info-circle" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -40,7 +40,7 @@
                                 d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
                         </svg>
                     </a>
-                    <a href="#" class="btn btn-info btn-circle btn-sm">
+                    <a type="button" onclick="edit_report_modal.showModal()" class="btn btn-info btn-circle btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-pencil-square" viewBox="0 0 16 16">
                             <path
@@ -49,7 +49,16 @@
                                 d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                         </svg>
                     </a>
-                    <a href="#" class="btn btn-error btn-circle btn-sm">
+                    <a href="{{url_for('report_url.index', report_id=report.id)}}" class="btn btn-warning btn-circle btn-sm" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-link-45deg" viewBox="0 0 16 16">
+                            <path
+                                d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z" />
+                            <path
+                                d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z" />
+                        </svg>
+                    </a>
+                    <a href="{{url_for('report.delete_report', id=report.id)}}" class="btn btn-error btn-circle btn-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-x-circle" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -59,6 +68,69 @@
                     </a>
                 </td>
             </tr>
+
+            <dialog id="edit_report_modal" class="modal">
+                <div class="modal-box w-11/12 max-w-5xl shadow shadow-green-500">
+                    <form method="dialog">
+                        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <form method="post" action="{{url_for('report.edit_report', id=report.id)}}">
+                        <h3 class="text-lg font-bold">Editar Informe</h3>
+                        <br>
+                        <div class="flex flex-row gap-4 w-full">
+                            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+                                <label class="label">Acción</label>
+                                <input type="text" class="input input-success w-full" name="action"
+                                    value="{{report.action_type}}" />
+                                <br>
+                                <label class="label">Plataforma</label>
+                                <select class="select select-success w-full" name="platform">
+                                    {%if report.target_platform == 'discord'%}
+                                    <option value="discord" selected>Discord</option>
+                                    <option value="minecraft">Minecraft Servers</option>
+                                    <option value="pg-alicante">Asociación PanaGaming Alicante</option>
+                                    {%endif%}
+                                    {%if report.target_platform == 'minecraft'%}
+                                    <option value="discord">Discord</option>
+                                    <option value="minecraft" selected>Minecraft Servers</option>
+                                    <option value="pg-alicante">Asociación PanaGaming Alicante</option>
+                                    {%endif%}
+                                    {%if report.target_platform == 'pg-alicante'%}
+                                    <option value="discord">Discord</option>
+                                    <option value="minecraft">Minecraft Servers</option>
+                                    <option value="pg-alicante" selected>Asociación PanaGaming Alicante</option>
+                                    {%endif%}
+                                </select>
+                                <br>
+                                <label class="label">Id Usuario</label>
+                                <input type="text" name="user_id" class="input input-success w-full"
+                                    value="{{report.target_user_id}}" />
+                            </fieldset>
+
+                            <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+                                <label class="label">Activado</label>
+                                {%if report.is_active%}
+                                <input type="checkbox" checked="checked" class="toggle toggle-success" />
+                                {%else%}
+                                <input type="checkbox" class="toggle toggle-success" />
+                                {%endif%}
+                                <br>
+                                <label class="label">Tiempo de Expiración</label>
+                                <input type="date" name="expires_at" class="input input-success w-full"
+                                    value="{{report.expires_at}}" />
+                            </fieldset>
+                        </div>
+                        <br>
+                        <div class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
+                            <label class="label">Razon</label>
+                            <textarea class="textarea textarea-success h-80 w-full"
+                                name="reason">{{report.reason}}</textarea>
+                        </div>
+                        <br>
+                        <button class="btn btn-block btn-success rounded-full text-bold">Editar Reporte</button>
+                    </form>
+                </div>
+            </dialog>
             {%endfor%}
         </tbody>
     </table>

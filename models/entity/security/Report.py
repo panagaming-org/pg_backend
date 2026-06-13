@@ -18,9 +18,6 @@ class Report(db.Model):
     
     # Detalles y Evidencias
     reason = db.Column(db.Text, nullable=False)
-    # Usamos ARRAY de strings de Postgres para almacenar múltiples URLs de pruebas
-    evidence_urls = db.Column(ARRAY(db.Text), nullable=True) 
-    
     # Estado de la sanción (Activa / Expirada / Revocada)
     is_active = db.Column(db.Boolean, nullable=False, default=True)
     
@@ -33,7 +30,7 @@ class Report(db.Model):
     revoked_by = db.Column(db.String(64), nullable=True)
     revocation_reason = db.Column(db.Text, nullable=True)
     
-    def __init__ (self, action_type, target_platform, target_user_id, reason, evidence_urls=[], is_active=False, created_at=None, expires_at=None, revoked_at=None, revoked_by=None, revocation_reason=None):
+    def __init__(self, action_type, target_platform, target_user_id, reason, evidence_urls=[], is_active=False, created_at=None, expires_at=None, revoked_at=None, revoked_by=None, revocation_reason=None):
         self.action_type = action_type
         self.target_platform = target_platform
         self.target_user_id = target_user_id

@@ -5,6 +5,10 @@ def get_by_id(id):
     report = db.session.query(Report).filter(Report.id == id).first()
     return report
 
+def get_all():
+    reports = db.session.query(Report).all()
+    return reports
+
 def get_paged(page, per_page):
     reports = db.session.query(Report).paginate(page=page, per_page=per_page)
     return reports
@@ -26,7 +30,7 @@ def add_report(action_type, target_platform, target_user_id, reason, evidence_ur
     db.session.add(new_report)
     db.session.commit()
 
-def update_report(id_report, action_type, target_platform, target_user_id, reason, evidence_urls, is_active, created_at, expires_at, revoked_at, revoked_by, revocation_reason):
+def update_report(id_report, action_type, target_platform, target_user_id, reason, evidence_urls, is_active=False, created_at=None, expires_at=None, revoked_at=None, revoked_by=None, revocation_reason=None):
     report = get_by_id(id_report)
     
     report.action_type = action_type
@@ -41,4 +45,9 @@ def update_report(id_report, action_type, target_platform, target_user_id, reaso
     report.revoked_by = revoked_by
     report.revocation_reason = revocation_reason
     
+    db.session.commit()
+
+def delete_report(id_report):
+    report = get_by_id(id_report)
+    db.session.delete(report)
     db.session.commit()

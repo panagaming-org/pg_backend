@@ -39,3 +39,59 @@ def create_report():
         )
         return redirect(url_for('report.index'))
     return redirect(url_for('auth.login'))
+
+@reports_bp.route('/details/<int:report_id>')
+def report_details(report_id):
+    if 'id' in session:
+        report = reports_service.get_by_id(report_id)
+        if report:
+            return render_template(
+                '/security/reports/details.jinja',
+                report=report
+            )
+        flash('Informe no encontrado.', 'error')
+        return redirect(url_for('report.index'))
+    return redirect(url_for('auth.login'))
+
+@reports_bp.route('/<int:id>/edit', methods=['POST'])
+def edit_report(id):
+    if 'id' in session:
+        
+        action = request.form.get('action')
+        platform = request.form.get('platform')
+        user_id = request.form.get('user_id')
+        active = request.form.get('active') == 'on'
+        expires_at = request.form.get('expires_at')
+        reason = request.form.get('reason')
+
+        reports_service.update_report(
+            id_report=id,
+            action_type=action,
+            target_platform=platform,
+            target_user_id=user_id,
+            reason=reason,
+            active=active,
+            expires_at=expires_at
+        )
+        return redirect(url_for('report.index'))
+    return redirect(url_for('auth.login'))
+
+@reports_bp.route('/delete/<int:id>', methods=['GET'])
+def delete_report(id):
+    if 'id' in session:
+        reports_service.delete_report(id)
+        return redirect(url_for('report.index'))
+    return redirect(url_for('auth.login'))
+
+@reports_bp.route('<int:id>/urls')
+def get_report_urls(id):
+    if 'id' in session:
+        report = reports_service.get_by_id(id)
+        if report:
+            return render_template(
+                '/security/reports/urls/index.jinja',
+                report=report
+            )
+        flash('Informe no encontrado.', 'error')
+        return redirect(url_for('report.index'))
+    return redirect(url_for('auth.login'))

@@ -22,7 +22,6 @@ def update_status():
 
     if not status or not server_id:
         return jsonify({"error": "Faltan datos."}), 400
-
     try:
         server_dao.update_status(server_id, status)
         print("Estado cambiado: ", status)

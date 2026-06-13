@@ -63,7 +63,9 @@ app.register_blueprint(user_bp, url_prefix="/users")
 app.register_blueprint(server_bp, url_prefix="/servers")
 app.register_blueprint(images_api, url_prefix="/api/images")
 app.register_blueprint(servers_api, url_prefix="/api/servers")
+app.register_blueprint(reports_api, url_prefix="/api/security/reports")
 app.register_blueprint(reports_bp, url_prefix="/security/reports")
+app.register_blueprint(report_url_bp, url_prefix="/security/reports/urls")
 
 # Ruta del index
 @app.route('/', methods=['GET'])

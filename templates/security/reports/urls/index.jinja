@@ -1,0 +1,57 @@
+{%extends 'base.jinja'%}
+
+{%block title%} Urls evidentes {%endblock%}
+
+{%block content%}
+<div class="overflow-x-auto rounded-box shadow shadow-green-500 bg-base-100">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Url</th>
+                <th>
+                    <button class="btn btn-success btn-sm rounded-full" onclick="add_url_modal.showModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        <span>Añadir</span>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for url in urls%}
+            <tr>
+                <td>{{url.url}}</td>
+                <td>
+                    <a href="{{url_for('report_url.delete_report_url', report_id=report.id, id=url.id)}}" type="button" class="btn btn-error btn-circle btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8l-2.647-2.646a.5.5 0 0 1 .708-.708z" />
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+<dialog id="add_url_modal" class="modal">
+  <div class="modal-box shadow shadow-green-500">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="text-lg font-bold">Nuevo Enlace</h3>
+    <form method="post" action="{{url_for('report_url.add_report_url', report_id=report.id)}}">
+        <br>
+        <input type="text" class="input input-sm w-full input-success" placeholder="http://" name="url"/>
+        <br><br>
+        <button type="submit" class="btn btn-block btn-success">Agregar Enlace</button>
+    </form>
+  </div>
+</dialog>
+{%endblock%}
