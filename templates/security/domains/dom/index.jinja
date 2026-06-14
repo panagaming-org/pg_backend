@@ -4,5 +4,65 @@
 
 {%block content%}
 
+<div class="overflow-x-auto rounded-box shadow shadow-green-500 bg-base-100">
+    <table class="table">
+        <!-- head -->
+        <thead>
+            <tr>
+                <th></th>
+                <th>Dominio</th>
+                <th>Categoría</th>
+                <th>
+                    <button onclick="add_domain_modal.showModal()"
+                        class="btn btn-success rounded-full btn-sm font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        <span>Agregar</span>
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for domain in domains%}
+            <tr>
+                <th></th>
+                <td>{{domain.domain}}</td>
+                <td>{{domain.category_domain.description}}</td>
+                <td></td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
 
+<dialog id="add_domain_modal" class="modal">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="text-lg font-bold">Nuevo Dominio</h3>
+        <hr />
+        <br>
+        <form action="#" method="post">
+            <div>
+                <label for="domain_input">Dominio</label><br>
+                <input type="text" placeholder="tiktok.com" id="domain_input" name="domain"
+                    class="input input-success w-full input-sm" />
+            </div>
+            <br>
+            <div>
+                <label for="category_select">Categoría</label><br>
+                <select id="category_select" name="category" class="select select-success input-sm w-full">
+                    <option disabled selected>Category</option>
+                    {%for category in categories%}
+                    <option value="{{category.id}}">{{category.description}}</option>
+                    {%endfor%}
+                </select>
+            </div>
+        </form>
+    </div>
+</dialog>
 {%endblock%}

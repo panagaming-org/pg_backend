@@ -5,6 +5,10 @@ def get_by_id(id):
     category = db.session.query(CategoryDomain).filter(CategoryDomain.id == id).first()
     return category
 
+def get_all():
+    categories = db.session.query(CategoryDomain).all()
+    return categories
+
 def get_paged(page, per_page):
     categories = db.session.query(CategoryDomain).paginate(page=page, per_page=per_page)
     return categories
