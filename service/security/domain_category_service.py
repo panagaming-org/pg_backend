@@ -19,3 +19,17 @@ def get_paged(page, per_page):
     except Exception as e:
         flash("Error en la obtencion de las categorías de los dominios.", "error")
         return []
+
+def add_category(description):
+    try:
+        domain_category_dao.add_category(description)
+        flash("Categoría agregada.", "success")
+    except Exception as e:
+        flash("Error a la hora de agregar la categoría.", "error")
+
+def delete_category(category_id):
+    try:
+        domain_category_dao.delete_category(category_id)
+        flash("Categoría eliminada.", "success")
+    except Exception as e:
+        flash("Error a la hora de eliminar la categoría.", "error")

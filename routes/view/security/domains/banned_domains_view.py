@@ -22,3 +22,23 @@ def index():
             domains=banned_domains
         )
     return redirect(url_for('auth.login'))
+
+@banned_domains_bp.route('/add', methods=['POST'])
+def add_domain():
+    if 'id' in session:
+        domain = request.form.get('domain')
+        category_id = request.form.get('category')
+
+        print(domain)
+        print(category_id)
+        
+        banned_domain_service.add_domain(domain, category_id)
+        return redirect(url_for('banned_domain.index'))
+    return redirect(url_for('auth.login'))
+
+@banned_domains_bp.route('/delete', methods=['GET'])
+def delete_domain(id):
+    if 'id' in session:
+        banned_domain_service.delete_domain(id)
+        return redirect(url_for('banned_domain.index'))
+    return redirect(url_for('auth.login'))

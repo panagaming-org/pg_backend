@@ -17,3 +17,18 @@ def index():
             categories=categories
         )
     return redirect(url_for('auth.login'))
+
+@domain_category_bp.route('/add', methods=['POST'])
+def add_category():
+    if 'id' in session:
+        description = request.form.get('description')
+        domain_category_service.add_category(description)
+        return redirect(url_for('domain_category.index'))
+    return redirect(url_for('auth.login'))
+
+@domain_category_bp.route('/delete/<int:id>', methods=['GET'])
+def delete_category(id):
+    if 'id' in session:
+        domain_category_service.delete_category(id)
+        return redirect(url_for('domain_category.index'))
+    return redirect(url_for('auth.login'))

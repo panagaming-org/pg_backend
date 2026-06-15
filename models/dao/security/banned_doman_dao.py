@@ -10,6 +10,8 @@ def get_paged(page, per_page):
     return domains
 
 def add_domain(domain, category_id):
+    print(domain)
+    print(category_id)
     new_domain = BannedDomain(
         domain=domain,
         category_id=category_id
