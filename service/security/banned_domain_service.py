@@ -10,10 +10,15 @@ def get_paged(page, per_page):
         flash("Hubo un fallo a la hora de obtener los dominios baneados.", "error")
         return []
 
+def get_json():
+    try:
+        domains = banned_domain_dao.get_all()
+        return [domains.to_dict() for domains in domains]
+    except Exception as e:
+        return {"error": "Error interno al obtener los dominion baneados."}, 500
+
 def add_domain(domain, category_id):
     try:
-        print(domain)
-        print(category_id)
         banned_domain_dao.add_domain(domain, category_id)
         flash("Nuevo dominio baneado agregado.", "success")
     except Exception as e:

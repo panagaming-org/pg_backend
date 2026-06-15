@@ -12,7 +12,7 @@
                 <th></th>
                 <th>Descripción</th>
                 <th>
-                    <button class="btn btn-success rounded-full font-bold" onclick="add_category_modal.showModal()">
+                    <button class="btn btn-success btn-sm rounded-full font-bold" onclick="add_category_modal.showModal()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                             <path
@@ -29,7 +29,7 @@
                 <td></td>
                 <td>{{category.description}}</td>
                 <td>
-                    <a href="{{url_for('domain_category.delete_category', id=category.id)}}" class="btn btn-error rounded-full btn-circle">
+                    <a href="{{url_for('domain_category.delete_category', id=category.id)}}" class="btn btn-error rounded-full btn-sm btn-circle">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-trash3" viewBox="0 0 16 16">
                             <path
@@ -41,6 +41,16 @@
             {%endfor%}
         </tbody>
     </table>
+</div>
+<br>
+<div class="join shadow shadow-green-500">
+    {%if categories.has_prev%}
+    <a type="button" href="?page={{categories.prev_num}}" class="join-item btn">«</a>
+    {%endif%}
+    <button class="join-item btn">Page {{categories.page}}</button>
+    {%if categories.has_next%}
+    <a type="button" href="?page={{categories.next_num}}" class="join-item btn">»</a>
+    {%endif%}
 </div>
 
 <dialog id="add_category_modal" class="modal">

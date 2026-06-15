@@ -11,3 +11,4 @@ from .view.security.domains.domain_category_view import domain_category_bp
 from .api.images_api import images_api
 from .api.servers_api import servers_api
 from .api.security.reports_api import reports_api
+from .api.security.banned_domains_api import banned_domains_api

@@ -135,6 +135,17 @@
         </tbody>
     </table>
 </div>
+<br>
+<br>
+<div class="join shadow shadow-green-500">
+    {%if reports.has_prev%}
+    <a type="button" href="?page={{reports.prev_num}}" class="join-item btn">«</a>
+    {%endif%}
+    <button class="join-item btn">Page {{reports.page}}</button>
+    {%if reports.has_next%}
+    <a type="button" href="?page={{reports.next_num}}" class="join-item btn">»</a>
+    {%endif%}
+</div>
 
 <dialog id="add_report_modal" class="modal">
     <div class="modal-box w-11/12 max-w-5xl shadow shadow-green-500">

@@ -43,6 +43,17 @@
         </tbody>
     </table>
 </div>
+<br>
+<div class="join shadow shadow-green-500">
+    {%if domains.has_prev%}
+    <a type="button" href="?page={{domains.prev_num}}" class="join-item btn">«</a>
+    {%endif%}
+    <button class="join-item btn">Page {{domains.page}}</button>
+    {%if domains.has_next%}
+    <a type="button" href="?page={{domains.next_num}}" class="join-item btn">»</a>
+    {%endif%}
+</div>
+
 
 <dialog id="add_domain_modal" class="modal">
     <div class="modal-box">
