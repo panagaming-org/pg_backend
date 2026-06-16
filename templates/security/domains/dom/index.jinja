@@ -3,7 +3,7 @@
 {%block title%} Dominios baneados {%endblock%}
 
 {%block content%}
-
+<script type="module" src="/static/scripts/security/domanins/domains_txt.js"></script>
 <div class="overflow-x-auto rounded-box shadow shadow-green-500 bg-base-100">
     <table class="table">
         <!-- head -->
@@ -22,6 +22,14 @@
                         </svg>
                         <span>Agregar</span>
                     </button>
+                    <button onclick="import_modal.showModal()" class="btn btn-success btn-sm rounded-full font-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-bar-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M1 3.5a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13a.5.5 0 0 1-.5-.5M8 6a.5.5 0 0 1 .5.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 .708-.708L7.5 12.293V6.5A.5.5 0 0 1 8 6" />
+                        </svg>
+                        <span>Importar</span>
+                    </button>
                 </th>
             </tr>
         </thead>
@@ -32,9 +40,11 @@
                 <td>{{domain.domain}}</td>
                 <td>{{domain.category_domain.description}}</td>
                 <td>
-                    <a href="{{url_for('banned_domain.delete_domain')}}" class="btn btn-circle btn-error btn-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                    <a href="{{url_for('banned_domain.delete_domain', id=domain.id)}}" class="btn btn-circle btn-error btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path
+                                d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
                         </svg>
                     </a>
                 </td>
@@ -53,7 +63,6 @@
     <a type="button" href="?page={{domains.next_num}}" class="join-item btn">»</a>
     {%endif%}
 </div>
-
 
 <dialog id="add_domain_modal" class="modal">
     <div class="modal-box">
@@ -84,4 +93,28 @@
         </form>
     </div>
 </dialog>
+
+<dialog id="import_modal" class="modal">
+    <div class="modal-box">
+        <form method="dialog">
+            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <form method="post" action="{{url_for('banned_domain.add_many')}}">
+            <br>
+            <input type="file" id="txt_file_input" class="file-input file-input-success w-full" />
+            <br><br>
+            <textarea name="domains" id="domains_textarea" class="textarea textarea-success w-full h-70"></textarea>
+            <br><br>
+            <select id="category_select" name="category" class="select select-success input-sm w-full" required>
+                <option disabled selected>Category</option>
+                {%for category in categories%}
+                <option value="{{category.id}}">{{category.description}}</option>
+                {%endfor%}
+            </select>
+            <br><br>
+            <button type="submit" class="btn btn-block btn-success font-bold">Agregar</button>
+        </form>
+    </div>
+</dialog>
+<script type="module" src="/static/scripts/security/domanins/domains_txt.js"></script>
 {%endblock%}

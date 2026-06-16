@@ -8,3 +8,10 @@ class BannedDomain(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category_domain.id'), nullable=False)
 
     category_domain = db.relationship('CategoryDomain', foreign_keys=[category_id])
+
+    def to_dict(self):
+        return {
+            'category': self.category_domain.description if self.category_domain else None,
+            'domain': self.domain,
+            'id': self.id
+        }
