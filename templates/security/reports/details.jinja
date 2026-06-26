@@ -6,8 +6,8 @@
 <div>
     <div class="flex flex-row gap-4 w-full">
         <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
-            <label class="label">Acción</label>
-            <input type="text" class="input input-success w-full" name="action" readonly value="{{report.action_type}}" />
+            <label class="label">Usuario</label>
+            <input type="text" class="input input-success w-full" name="action" readonly value="{{report.username}}" />
             <br>
             <label class="label">Plataforma</label>
             {%if report.target_platform == 'discord'%}
@@ -32,12 +32,12 @@
             <input type="checkbox" class="toggle toggle-success" readonly />
             {%endif%}
             <br>
-            <label class="label">Tiempo de Expiración</label>
+            <label class="label">Acción</label>
+            <input type="text" class="input input-success w-full" name="action" readonly value="{{report.action_type}}" />
+            <br>
             {%if report.expires_at%}
+            <label class="label">Tiempo de Expiración</label>
             <input type="date" name="expires_at" class="input input-success w-full" readonly value="{{report.expires_at}}" />
-            {%endif%}
-            {%if not report.expires_at%}
-            <input type="date" name="expires_at" class="input input-success w-full" readonly />
             {%endif%}
         </fieldset>
     </div>

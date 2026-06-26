@@ -11,3 +11,27 @@ reports_api = Blueprint('reports_api', __name__)
 def get_reports():
     response = reports_service.get_json_reports()
     return jsonify(response)
+
+@reports_api.route('/add', methods=['POST'])
+def add_report():
+    data = request.json
+    
+    username = data.get('username')
+    action_type = data.get('action_type')
+    user_id = data.get('target_user_id')
+    target_platform = data.get('target_platform')
+    reason = data.get('reason')
+    evidence_url = data.get('evidence_url')
+    active = data.get('active')
+    expires_at = data.get('expires_at')
+
+    reports_service.add_report(
+        username,
+        action_type,
+        user_id,
+        target_platform,
+        reason,
+        evidence_url,
+        active,
+        expires_at
+    )

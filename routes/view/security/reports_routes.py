@@ -22,6 +22,7 @@ def index():
 @reports_bp.route('/create', methods=['POST'])
 def create_report():
     if 'id' in session:
+        username = request.form.get('username')
         action = request.form.get('action')
         platform = request.form.get('platform')
         user_id = request.form.get('user_id')
@@ -30,6 +31,7 @@ def create_report():
         reason = request.form.get('reason')
         
         reports_service.add_report(
+            username=username,
             action=action,
             platform=platform,
             user_id=user_id,
@@ -56,21 +58,25 @@ def report_details(report_id):
 @reports_bp.route('/<int:id>/edit', methods=['POST'])
 def edit_report(id):
     if 'id' in session:
-        
         action = request.form.get('action')
+        username = request.form.get('username')
         platform = request.form.get('platform')
         user_id = request.form.get('user_id')
         active = request.form.get('active') == 'on'
         expires_at = request.form.get('expires_at')
         reason = request.form.get('reason')
 
+        if expires_at == "":
+            expires_at = None
+
         reports_service.update_report(
             id_report=id,
+            username=username,
             action_type=action,
-            target_platform=platform,
-            target_user_id=user_id,
+            platform=platform,
+            user_id=user_id,
             reason=reason,
-            active=active,
+            is_active=active,
             expires_at=expires_at
         )
         return redirect(url_for('report.index'))

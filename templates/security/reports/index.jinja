@@ -79,9 +79,9 @@
                         <br>
                         <div class="flex flex-row gap-4 w-full">
                             <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
-                                <label class="label">Acción</label>
-                                <input type="text" class="input input-success w-full" name="action"
-                                    value="{{report.action_type}}" />
+                                <label class="label">Usuario</label>
+                                <input type="text" class="input input-success w-full" name="username"
+                                    value="{{report.username}}" />
                                 <br>
                                 <label class="label">Plataforma</label>
                                 <select class="select select-success w-full" name="platform">
@@ -114,6 +114,10 @@
                                 {%else%}
                                 <input type="checkbox" class="toggle toggle-success" />
                                 {%endif%}
+                                <br>
+                                <label class="label">Acción</label>
+                                <input type="text" class="input input-success w-full" name="action"
+                                    value="{{report.action_type}}" />
                                 <br>
                                 <label class="label">Tiempo de Expiración</label>
                                 <input type="date" name="expires_at" class="input input-success w-full"
@@ -157,8 +161,8 @@
             <br>
             <div class="flex flex-row gap-4 w-full">
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
-                    <label class="label">Acción</label>
-                    <input type="text" class="input input-success w-full" name="action" />
+                    <label class="label" for="username_input">Usuario</label>
+                    <input type="text" id="username_input" name="username" class="input input-success w-full" />
                     <br>
                     <label class="label">Plataforma</label>
                     <select class="select select-success w-full" name="platform">
@@ -175,6 +179,9 @@
                 <fieldset class="fieldset bg-base-200 border-base-300 rounded-box flex-1 border p-4">
                     <label class="label">Activado</label>
                     <input type="checkbox" checked="checked" class="toggle toggle-success" />
+                    <br>
+                    <label class="label">Acción</label>
+                    <input type="text" class="input input-success w-full" name="action" />
                     <br>
                     <label class="label">Tiempo de Expiración</label>
                     <input type="date" name="expires_at" class="input input-success w-full" />
