@@ -25,13 +25,20 @@ def add_report():
     active = data.get('active')
     expires_at = data.get('expires_at')
 
+    evidence_url = evidence_url if len(evidence_url) > 0 else None
+
     reports_service.add_report(
-        username,
-        action_type,
-        user_id,
-        target_platform,
-        reason,
-        evidence_url,
-        active,
-        expires_at
+        username=username,
+        action=action_type,
+        platform=target_platform,
+        user_id=user_id,
+        active=active,        
+        reason=reason,  
+        expires_at=expires_at,
+        evidence_url=evidence_url
     )
+
+    return jsonify({
+        "status": "success",
+        "message": "Reporte creado exitosamente!!!"
+    }), 201
