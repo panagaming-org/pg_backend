@@ -7,7 +7,7 @@
         "database": "postgres"
     },
     "flask": {
-        "debug": true,
+        "debug": false,
         "development": {
             "protocol": "http",
             "ip": "localhost",
